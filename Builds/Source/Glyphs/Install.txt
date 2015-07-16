@@ -1,0 +1,5 @@
+To install SpeedPunk in Glyphs, just double-click on the extension file.
+Glyphs will load and ask you for permission to install it.
+You may have to restart Glyphs before the tool will show up in the toolbar.
+
+It will be copied to ~/Library/Application Support/Glyphs/Plugins/
