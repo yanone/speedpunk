@@ -1,0 +1,2 @@
+To install SpeedPunk in RoboFont, just double-click on the extension file.
+It will be copied to ~/Library/Application Support/RoboFont/plugins/

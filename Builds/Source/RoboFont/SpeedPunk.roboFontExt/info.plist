@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>addToMenu</key>
+	<array/>
+	<key>developer</key>
+	<string>Yanone</string>
+	<key>developerURL</key>
+	<string>http://yanone.de</string>
+	<key>html</key>
+	<false/>
+	<key>launchAtStartUp</key>
+	<integer>1</integer>
+	<key>mainScript</key>
+	<string>SpeedPunkTool.py</string>
+	<key>name</key>
+	<string>SpeedPunk</string>
+	<key>requiresVersionMajor</key>
+	<string>1</string>
+	<key>requiresVersionMinor</key>
+	<string>2</string>
+	<key>timeStamp</key>
+	<real>1328568137.932956</real>
+	<key>version</key>
+	<string>1.0</string>
+</dict>
+</plist>
