@@ -29,7 +29,7 @@ class GlyphsAppSpeedPunkTool (GSToolSelect):
 	
 	def init(self):
 		Bundle = NSBundle.bundleForClass_(NSClassFromString(self.className()));
-		BundlePath = Bundle.pathForResource_ofType_("toolbar", "png")
+		BundlePath = Bundle.pathForResource_ofType_("toolbar", "pdf")
 		self.tool_bar_image = NSImage.alloc().initWithContentsOfFile_( BundlePath )
 		self.tool_bar_image.setTemplate_(True)
 		

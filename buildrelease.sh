@@ -33,7 +33,7 @@ cp -Rf "Builds/Source/" "Builds/$VERSION/"
 if $BUILDGLYPHS; then
 echo "Building SpeedPunk $VERSION for Glyphs"
 cp -f "Glyphs/SpeedPunk.py" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
-cp -f "Resources/toolbar.png" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
+cp -f "Resources/toolbar.pdf" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
 cp -Rf "/Users/yanone/Code/git/Yanone/ynlib.git (trunk)/Lib/ynlib" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
 cp -Rf "lib/speedpunk" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
 cp -Rf "/Users/yanone/Code/svn/typesupply/vanilla.git/trunk/Lib/vanilla" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
