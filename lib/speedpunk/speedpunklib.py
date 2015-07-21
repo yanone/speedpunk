@@ -37,7 +37,7 @@ try:
 except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
-VERSION = 'beta'
+VERSION = '%%VERSION%%'
 
 if environment == 'RoboFont':
 	from lib.tools.bezierTools import curveConverter
@@ -109,8 +109,8 @@ class SpeedPunkLib:
 
 	def RefreshView(self):
 		if environment == 'GlyphsApp':
-			if self.tool.editViewController():
-				self.tool.editViewController().graphicView().setNeedsDisplay_(True)
+			if GlyphsApp.Glyphs.font.currentTab:
+				GlyphsApp.Glyphs.font.currentTab.graphicView().setNeedsDisplay_(True)
 		elif environment == 'RoboFont':
 			self.tool.refreshView()
 
