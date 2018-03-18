@@ -1,10 +1,10 @@
 # change to this directory in command line and execute this file
 
 
-VERSION='1.01'
-REVERSION='1\.01'
+VERSION='1.02'
+REVERSION='1\.02'
 BUILDGLYPHS=true
-BUILDROBOFONT=true
+BUILDROBOFONT=false
 
 # Change version number in lib
 find "lib/speedpunk" -type f -exec sed -i "" "s/VERSION = 'beta'/VERSION = '$REVERSION'/g" {} +
@@ -32,11 +32,11 @@ cp -Rf "Builds/Source/" "Builds/$VERSION/"
 # Glyphs
 if $BUILDGLYPHS; then
 echo "Building SpeedPunk $VERSION for Glyphs"
-cp -f "Glyphs/SpeedPunk.py" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
-cp -f "Resources/toolbar.pdf" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
-cp -Rf "/Users/yanone/Code/git/Yanone/ynlib.git (trunk)/Lib/ynlib" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
+cp -f "Glyphs/SpeedPunk.py" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/plugin.py"
+#cp -f "Resources/toolbar.pdf" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources"
+cp -Rf "/Users/yanone/Code/py/git/ynlib/Lib/ynlib" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
 cp -Rf "lib/speedpunk" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
-cp -Rf "/Users/yanone/Code/svn/typesupply/vanilla.git/trunk/Lib/vanilla" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
+cp -Rf "/Users/yanone/Code/py/git/vanilla/Lib/vanilla" "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources/"
 find "Builds/$VERSION/Glyphs/SpeedPunk.glyphsTool/Contents/Resources" -name .svn -exec rm -rf {} \;
 # Copy
 rm -Rf "/Users/yanone/Library/Application Support/Glyphs/Plugins/SpeedPunk.glyphsTool"
@@ -58,6 +58,10 @@ fi
 
 
 # Change version number
-find "Release" -type f -exec sed -i "" "s/%%VERSION%%/$REVERSION/g" {} +
+#find "Builds/$VERSION/Glyphs" -type f -exec sed -i "" "s/%%VERSION%%/$REVERSION/g" {} +
+
+#find "Builds/$VERSION/Glyphs" -type f -print0 | xargs -0 sed -i "s/%%VERSION%%/$REVERSION/g"
+find "Builds/$VERSION/Glyphs" -type f -exec sed -i 's/%%VERSION%%/$REVERSION/g' {} +
+echo "Builds/$VERSION/Glyphs"
 # Change version number in lib back
-find "lib/speedpunk" -type f -exec sed -i "" "s/VERSION = '$VERSION'/VERSION = 'beta'/g" {} +
+#find "lib/speedpunk" -type f -exec sed -i "" "s/VERSION = '$VERSION'/VERSION = 'beta'/g" {} +
