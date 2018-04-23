@@ -48,7 +48,7 @@
                         </column>
                     </cells>
                     <connections>
-                        <binding destination="hDS-qr-Wu8" name="selectedIndex" keyPath="values.de_yanone_speedPunk_illustrationPositionIndex" id="ZE0-cU-tTJ"/>
+                        <binding destination="hDS-qr-Wu8" name="selectedIndex" keyPath="values.de.yanone.speedPunk.illustrationPositionIndex" id="ZE0-cU-tTJ"/>
                     </connections>
                 </matrix>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-1s-alb">
@@ -65,7 +65,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="30" doubleValue="30" tickMarkPosition="below" numberOfTickMarks="5" sliderType="linear" id="CB4-lo-uT9"/>
                     <connections>
-                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de_yanone_speedPunk_curveGain" id="E1t-5E-L13"/>
+                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.curveGain" id="E1t-5E-L13"/>
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vvw-YA-kdr">
@@ -76,7 +76,7 @@
                         <font key="font" metaFont="smallSystem"/>
                     </buttonCell>
                     <connections>
-                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de_yanone_speedPunk_useFader" id="u0s-sA-l9E"/>
+                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.useFader" id="u0s-sA-l9E"/>
                     </connections>
                 </button>
                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TXi-l5-RB9">
@@ -84,7 +84,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" maxValue="1" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="sFH-WA-4t6"/>
                     <connections>
-                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de_yanone_speedPunk_fader" id="q0A-ty-jQM"/>
+                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.fader" id="q0A-ty-jQM"/>
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sl7-CF-Kzt">

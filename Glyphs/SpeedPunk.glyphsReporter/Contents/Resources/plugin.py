@@ -46,8 +46,8 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		self.keyboardShortcut = 'x'
 
 		curveGain = speedpunk.speedpunklib.curveGain
-		Glyphs.registerDefault('de_yanone_speedPunk_curveGain', speedpunk.speedpunklib.Interpolate(curveGain[0], curveGain[1], .2))
-		Glyphs.registerDefault('de_yanone_speedPunk_fader', 1.0)
+		Glyphs.registerDefault('de.yanone.speedPunk.curveGain', speedpunk.speedpunklib.Interpolate(curveGain[0], curveGain[1], .2))
+		Glyphs.registerDefault('de_yanone.speedPunk.fader', 1.0)
 		
 		self.loadNib('settingsView', __file__)
 		self.menuName = 'Speed Punk'
@@ -61,10 +61,10 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		self.histHeight = 20
 		
 		default = NSUserDefaultsController.sharedUserDefaultsController()
-		default.addObserver_forKeyPath_options_context_(self, 'values.de_yanone_speedPunk_illustrationPositionIndex', 0, None)
-		default.addObserver_forKeyPath_options_context_(self, 'values.de_yanone_speedPunk_curveGain', 0, None)
-		default.addObserver_forKeyPath_options_context_(self, 'values.de_yanone_speedPunk_useFader', 0, None)
-		default.addObserver_forKeyPath_options_context_(self, 'values.de_yanone_speedPunk_fader', 0, None)
+		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.illustrationPositionIndex', 0, None)
+		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.curveGain', 0, None)
+		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.useFader', 0, None)
+		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.fader', 0, None)
 	
 	def observeValueForKeyPath_ofObject_change_context_(self, keypath, observed, changed, context):
 		self.speedpunklib.loadPreferences()
