@@ -214,7 +214,7 @@ try:
 except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
-VERSION = '1.1'
+VERSION = '1.11'
 
 if environment == 'RoboFont':
 	from lib.tools.bezierTools import curveConverter
@@ -287,7 +287,7 @@ class SpeedPunkLib(object):
 				'de': u'Willkommen zu Speed Punk %s' % VERSION,
 			}), Glyphs.localize({
 				'en': u'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X.\n\nEnjoy and make sure to follow @yanone on Twitter.',
-				'de': u'Danke zur Wahl von Space Bar. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
+				'de': u'Danke zur Wahl von Speed Punk. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
 			})
 			)
 		return
