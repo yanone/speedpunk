@@ -17,12 +17,12 @@
 	<key>name</key>
 	<string>SpeedPunk</string>
 	<key>requiresVersionMajor</key>
-	<string>1</string>
+	<string>3</string>
 	<key>requiresVersionMinor</key>
-	<string>2</string>
+	<string>0</string>
 	<key>timeStamp</key>
-	<real>1328568137.932956</real>
+	<real>1525083386.426237</real>
 	<key>version</key>
-	<string>1.0</string>
+	<string>1.1</string>
 </dict>
 </plist>

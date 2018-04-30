@@ -12,18 +12,214 @@
 #
 ##########################################################################################
 
-import time, os, plistlib, math, sys
+import time, os, math, sys
 
-import objc
-from AppKit import *
-from vanilla import *
+import vanilla
+from AppKit import NSBezierPath, NSColor, NSBundle, NSUserDefaults, NSImage
 
-from ynlib.lists import ListPairs
-from ynlib.beziers import Point, solveCubicBezier, solveCubicBezierCurvature
-from ynlib.colors import InterpolateHexColorList
-from ynlib.maths import Interpolate
-from ynlib.python import Environment
-from ynlib.system import Stamina
+
+##########################################################################################
+
+
+def Environment():
+	u"""\
+	Return the environment, from which this script is being called.
+	Currently supported: FontLab, GlyphsApp, NodeBox, Python
+	"""
+	
+	environment = 'Python'
+	
+	try:
+		import FL
+		environment = 'FontLab'
+	except: pass
+
+	try:
+		from AppKit import NSBundle
+		MainBundle = NSBundle.mainBundle()
+		if 'Glyphs' in MainBundle.bundlePath():
+			environment = 'GlyphsApp'
+	except: pass
+
+	try:
+		import mojo
+		environment = 'RoboFont'
+	except: pass
+
+	try:
+		import nodebox
+		environment = 'NodeBox'
+	except: pass
+	
+	return environment
+
+def Stamina():
+	u"""\
+	Calculate system power as integer using by mulitplying number of active CPUs with clock speed.
+	"""
+	from ynlib.system import Execute
+	return int(Execute('sysctl hw.activecpu').split(' ')[-1]) * int(Execute('sysctl hw.cpufrequency').split(' ')[-1])
+
+def Interpolate(a, b, p):
+	u"""\
+	Interpolate between values a and b at float position p (0-1)
+	"""
+	return a + (b - a) * p
+
+
+def InterpolateHexColorList(colors, p):
+	u"""\
+	Interpolate between list of hex RRGGBB values at float position p (0-1)
+	Returns float list (R, G, B)
+	"""
+
+	from ynlib.maths import Interpolate
+
+	# Safety first	
+	if p < 0: p = 0
+	if p > 1: p = 1
+	
+	if p == 0:
+		return (int(colors[0][0:2], 16) / 255.0, int(colors[0][2:4], 16) / 255.0, int(colors[0][4:6], 16) / 255.0)
+	elif p == 1:
+		return (int(colors[-1][0:2], 16) / 255.0, int(colors[-1][2:4], 16) / 255.0, int(colors[-1][4:6], 16) / 255.0)
+	else:
+		for i in range(len(colors)):
+			
+			before = (float(i) / (len(colors) - 1))
+			after = (float(i + 1) / (len(colors) - 1))
+			
+			if  before < p < after:
+				v = (p - before) / (after - before)
+				
+#				print "interpolate between", before, after, p, v
+
+				R = Interpolate(int(colors[i][0:2], 16) / 255.0, int(colors[i + 1][0:2], 16) / 255.0, v) 
+				G = Interpolate(int(colors[i][2:4], 16) / 255.0, int(colors[i + 1][2:4], 16) / 255.0, v)
+				B = Interpolate(int(colors[i][4:6], 16) / 255.0, int(colors[i + 1][4:6], 16) / 255.0, v)
+				return (R, G, B)
+			elif p == before:
+				return (int(colors[i][0:2], 16) / 255.0, int(colors[i][2:4], 16) / 255.0, int(colors[i][4:6], 16) / 255.0)
+			elif p == after:
+				return (int(colors[i + 1][0:2], 16) / 255.0, int(colors[i + 1][2:4], 16) / 255.0, int(colors[i + 1][4:6], 16) / 255.0)
+
+
+class Point:
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+	
+	def __add__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(self.x + other.x, self.y + other.y)
+
+	__radd__ = __add__
+	
+	def __sub__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(self.x - other.x, self.y - other.y)
+
+	def __rsub__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(other.x - self.x, other.y - self.y)
+
+	def __mul__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(self.x * other.x, self.y * other.y)
+	
+	__rmul__ = __mul__
+
+	def __div__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(self.x / other.x, self.y / other.y)
+
+	def __rdiv__(self, other):
+		if isinstance(other, int) or isinstance(other, float):
+			other = Point(other, other)
+		return Point(other.x / self.x, other.y / self.y)
+
+	def __abs__(self):
+		return math.sqrt(self.x**2 + self.y**2)
+
+
+	def __neg__(self):
+		return Point(-self.x, -self.y)
+
+#	def __cmp__(self, other):
+#		c = hash(other) - hash(self)
+#		if not isinstance(c, int):
+#			c = int(-1)
+#		return c
+
+	def __eq__(self, other):
+	    return (self.x, self.y) == (other.x, other.y)
+
+	def __ne__(self, other):
+	    return (self.x, self.y) != (other.x, other.y)
+	
+	def __hash__(self):
+		return hash((self.x, self.y))
+
+	def __repr__(self):
+		return '<Point %s %s>' % (self.x, self.y)
+
+
+def solveCubicBezier(p1, p2, p3, p4, t):
+	u"""\
+	Solve cubic Bezier equation and 1st and 2nd derivative.
+	Returns position of on-curve point p1234, and vector of 1st and 2nd derivative.
+	"""
+	a = -p1 + 3.0 * p2 - 3.0 * p3 + p4
+	b = 3.0 * p1 - 6.0 * p2 + 3.0 * p3
+	c = -3.0 * p1 + 3.0 * p2
+	d = p1
+
+	r = a*t**3 + b*t**2 + c*t + d
+	r1 = 3*a*t**2 + 2*b*t + c
+	r2 = 6*a*t + 2*b
+	
+	return r, r1, r2
+
+def solveCubicBezierCurvature(r, r1, r2):
+	u"""\
+	Calc curvature using cubic Bezier equation and 1st and 2nd derivative.
+	"""
+	return (r1.x * r2.y - r1.y * r2.x) / (r1.x**2 + r1.y**2)**1.5
+
+
+def ListPairs(list, num_pairs):
+	u"""\
+	Return 'num_pairs' amount of elements of list stacked together as lists.
+	Example:
+	list = ['a', 'b', 'c', 'd', 'e']
+	for one, two, three in ListPairs(list, 3):
+		print one, two, three
+	a b c
+	b c d
+	c d e
+	"""
+	returnlist = []
+	
+	for i in range(len(list) - num_pairs + 1):
+		
+		singlereturnlist = []
+		for j in range(num_pairs):
+			singlereturnlist.append(list[i + j])
+		
+		returnlist.extend([singlereturnlist])
+	
+	return returnlist
+
+
+
+##########################################################################################
+
+
 
 environment = Environment()
 colors = {
@@ -48,6 +244,7 @@ elif environment == 'GlyphsApp':
 	if not path in sys.path:
 		sys.path.append(path)
 	import GlyphsApp
+
 
 
 ##########################################################################################
@@ -447,19 +644,19 @@ class SpeedPunkPrefWindow(object):
 
 	def __init__(self, parent):
 		self.parent = parent
-		self.w = FloatingWindow((150, 130), "Speed Punk %s" % VERSION,
+		self.w = vanilla.FloatingWindow((150, 130), "Speed Punk %s" % VERSION,
 								closable = False,
 								autosaveName = 'de.yanone.speedPunk.%s.prefWindow' % (environment),
 								)
-		self.w.illustrationPositionRadioGroup = RadioGroup((10, 10, -10, 40),
+		self.w.illustrationPositionRadioGroup = vanilla.RadioGroup((10, 10, -10, 40),
 								["Outside of glyph", "Outer side of curve"],
 								callback=self.radioGroupCallback,
 								sizeStyle = "small")
 
-		self.w.curveGainTextBox = TextBox((10, 60, -10, 17), "Gain",
+		self.w.curveGainTextBox = vanilla.TextBox((10, 60, -10, 17), "Gain",
 							sizeStyle = "mini")
 
-		self.w.curveGainSlider = Slider((10, 70, -10, 25),
+		self.w.curveGainSlider = vanilla.Slider((10, 70, -10, 25),
 							tickMarkCount=5,
 							callback=self.curveGainSliderCallback,
 							sizeStyle = "small",
@@ -471,11 +668,11 @@ class SpeedPunkPrefWindow(object):
 		if self.parent.getPreference('illustrationPosition') == "outsideOfCurve": self.w.illustrationPositionRadioGroup.set(1)
 
 
-		self.w.faderCheckBox = CheckBox((10, 100, -10, 17), "Fader",
+		self.w.faderCheckBox = vanilla.CheckBox((10, 100, -10, 17), "Fader",
 							sizeStyle = "small",
 							callback=self.faderCheckBoxCallback)
 
-		self.w.faderSlider = Slider((10, 125, -10, 25),
+		self.w.faderSlider = vanilla.Slider((10, 125, -10, 25),
 							sizeStyle = "small",
 							minValue = 0,
 							maxValue = 1.0,
@@ -483,8 +680,8 @@ class SpeedPunkPrefWindow(object):
 							callback=self.faderSliderCallback,
 							)
 
-		self.w.gradientImage = ImageView((10, 150, -10, 15))
-		self.w.histogramImage = ImageView((10, 150, -10, 15))
+		self.w.gradientImage = vanilla.ImageView((10, 150, -10, 15))
+		self.w.histogramImage = vanilla.ImageView((10, 150, -10, 15))
 
 	def radioGroupCallback(self, sender):
 		illustrationPosition = ("outsideOfGlyph", "outsideOfCurve")

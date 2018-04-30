@@ -1,6 +1,6 @@
 ##########################################################################################
 #
-#	SpeedPunk 1.0
+#	SpeedPunk 1.1
 #	Visualisation tool of outline curvature for font editors.
 #	
 #	Commercial license. Not to be given to other people.
@@ -12,9 +12,8 @@
 #
 ##########################################################################################
 
-from mojo.events import BaseEventTool, installTool, EditingTool
+from mojo.events import installTool, EditingTool
 import speedpunk.speedpunklib
-from AppKit import *
 from mojo.extensions import ExtensionBundle
 bundle = ExtensionBundle("SpeedPunk")
 
@@ -24,7 +23,6 @@ speedpunklib = speedpunk.speedpunklib.SpeedPunkLib()
 
 class SpeedPunkTool(EditingTool):
 	
-
 	def becomeActive(self):
 		self.speedpunklib = speedpunklib
 		self.speedpunklib.tool = self
