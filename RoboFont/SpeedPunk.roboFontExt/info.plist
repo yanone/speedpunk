@@ -7,7 +7,7 @@
 	<key>developer</key>
 	<string>Yanone</string>
 	<key>developerURL</key>
-	<string>http://yanone.de</string>
+	<string>https://yanone.de</string>
 	<key>html</key>
 	<false/>
 	<key>launchAtStartUp</key>
@@ -19,9 +19,9 @@
 	<key>requiresVersionMajor</key>
 	<string>3</string>
 	<key>requiresVersionMinor</key>
-	<string>0</string>
+	<string>1</string>
 	<key>timeStamp</key>
-	<real>1525083386.426237</real>
+	<real>1525084277.8604889</real>
 	<key>version</key>
 	<string>1.1</string>
 </dict>

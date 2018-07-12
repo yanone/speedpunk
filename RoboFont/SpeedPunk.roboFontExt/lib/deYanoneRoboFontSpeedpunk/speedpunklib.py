@@ -1,18 +1,18 @@
 ##########################################################################################
 #
-#	SpeedPunk 1.0
+#	SpeedPunk 1.1
 #	Visualisation tool of outline curvature for font editors.
-#	
+#
 #	Commercial license. Not to be given to other people.
-#	
+#
 #	Copyright 2012 by Yanone.
-#	Web: http://yanone.de
+#	Web: https://yanone.de
 #	Twitter: @yanone
 #	Email: post@yanone.de
 #
 ##########################################################################################
 
-import time, os, math, sys
+import time, os, math, sys, plistlib
 
 import vanilla
 from AppKit import NSBezierPath, NSColor, NSBundle, NSUserDefaults, NSImage
@@ -22,13 +22,13 @@ from AppKit import NSBezierPath, NSColor, NSBundle, NSUserDefaults, NSImage
 
 
 def Environment():
-	u"""\
+	"""\
 	Return the environment, from which this script is being called.
 	Currently supported: FontLab, GlyphsApp, NodeBox, Python
 	"""
-	
+
 	environment = 'Python'
-	
+
 	try:
 		import FL
 		environment = 'FontLab'
@@ -50,51 +50,51 @@ def Environment():
 		import nodebox
 		environment = 'NodeBox'
 	except: pass
-	
+
 	return environment
 
 def Stamina():
-	u"""\
+	"""\
 	Calculate system power as integer using by mulitplying number of active CPUs with clock speed.
 	"""
 	from ynlib.system import Execute
 	return int(Execute('sysctl hw.activecpu').split(' ')[-1]) * int(Execute('sysctl hw.cpufrequency').split(' ')[-1])
 
 def Interpolate(a, b, p):
-	u"""\
+	"""\
 	Interpolate between values a and b at float position p (0-1)
 	"""
 	return a + (b - a) * p
 
 
 def InterpolateHexColorList(colors, p):
-	u"""\
+	"""\
 	Interpolate between list of hex RRGGBB values at float position p (0-1)
 	Returns float list (R, G, B)
 	"""
 
-	from ynlib.maths import Interpolate
+	#from ynlib.maths import Interpolate
 
-	# Safety first	
+	# Safety first
 	if p < 0: p = 0
 	if p > 1: p = 1
-	
+
 	if p == 0:
 		return (int(colors[0][0:2], 16) / 255.0, int(colors[0][2:4], 16) / 255.0, int(colors[0][4:6], 16) / 255.0)
 	elif p == 1:
 		return (int(colors[-1][0:2], 16) / 255.0, int(colors[-1][2:4], 16) / 255.0, int(colors[-1][4:6], 16) / 255.0)
 	else:
 		for i in range(len(colors)):
-			
+
 			before = (float(i) / (len(colors) - 1))
 			after = (float(i + 1) / (len(colors) - 1))
-			
+
 			if  before < p < after:
 				v = (p - before) / (after - before)
-				
+
 #				print "interpolate between", before, after, p, v
 
-				R = Interpolate(int(colors[i][0:2], 16) / 255.0, int(colors[i + 1][0:2], 16) / 255.0, v) 
+				R = Interpolate(int(colors[i][0:2], 16) / 255.0, int(colors[i + 1][0:2], 16) / 255.0, v)
 				G = Interpolate(int(colors[i][2:4], 16) / 255.0, int(colors[i + 1][2:4], 16) / 255.0, v)
 				B = Interpolate(int(colors[i][4:6], 16) / 255.0, int(colors[i + 1][4:6], 16) / 255.0, v)
 				return (R, G, B)
@@ -108,14 +108,14 @@ class Point:
 	def __init__(self, x, y):
 		self.x = x
 		self.y = y
-	
+
 	def __add__(self, other):
 		if isinstance(other, int) or isinstance(other, float):
 			other = Point(other, other)
 		return Point(self.x + other.x, self.y + other.y)
 
 	__radd__ = __add__
-	
+
 	def __sub__(self, other):
 		if isinstance(other, int) or isinstance(other, float):
 			other = Point(other, other)
@@ -130,7 +130,7 @@ class Point:
 		if isinstance(other, int) or isinstance(other, float):
 			other = Point(other, other)
 		return Point(self.x * other.x, self.y * other.y)
-	
+
 	__rmul__ = __mul__
 
 	def __div__(self, other):
@@ -161,7 +161,7 @@ class Point:
 
 	def __ne__(self, other):
 	    return (self.x, self.y) != (other.x, other.y)
-	
+
 	def __hash__(self):
 		return hash((self.x, self.y))
 
@@ -170,7 +170,7 @@ class Point:
 
 
 def solveCubicBezier(p1, p2, p3, p4, t):
-	u"""\
+	"""\
 	Solve cubic Bezier equation and 1st and 2nd derivative.
 	Returns position of on-curve point p1234, and vector of 1st and 2nd derivative.
 	"""
@@ -182,18 +182,18 @@ def solveCubicBezier(p1, p2, p3, p4, t):
 	r = a*t**3 + b*t**2 + c*t + d
 	r1 = 3*a*t**2 + 2*b*t + c
 	r2 = 6*a*t + 2*b
-	
+
 	return r, r1, r2
 
 def solveCubicBezierCurvature(r, r1, r2):
-	u"""\
+	"""\
 	Calc curvature using cubic Bezier equation and 1st and 2nd derivative.
 	"""
 	return (r1.x * r2.y - r1.y * r2.x) / (r1.x**2 + r1.y**2)**1.5
 
 
 def ListPairs(list, num_pairs):
-	u"""\
+	"""\
 	Return 'num_pairs' amount of elements of list stacked together as lists.
 	Example:
 	list = ['a', 'b', 'c', 'd', 'e']
@@ -204,15 +204,15 @@ def ListPairs(list, num_pairs):
 	c d e
 	"""
 	returnlist = []
-	
+
 	for i in range(len(list) - num_pairs + 1):
-		
+
 		singlereturnlist = []
 		for j in range(num_pairs):
 			singlereturnlist.append(list[i + j])
-		
+
 		returnlist.extend([singlereturnlist])
-	
+
 	return returnlist
 
 
@@ -233,7 +233,9 @@ try:
 except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
-VERSION = '1.0'
+
+plist = plistlib.readPlist(os.path.join(os.path.dirname(__file__), '..', '..', 'info.plist'))
+VERSION = plist['version']
 
 if environment == 'RoboFont':
 	from lib.tools.bezierTools import curveConverter
@@ -266,7 +268,7 @@ class SpeedPunkLib:
 		self.preferenceKeys = ('illustrationPosition', 'curveGain')
 		self.unitsperem = 1000
 		self.curves = 'cubic'
-		
+
 		self.loadPreferences()
 
 		# Preferences
@@ -283,23 +285,23 @@ class SpeedPunkLib:
 
 	def getPreference(self, key):
 		return self.preferences[key]
-		
+
 	def setPreference(self, key, value):
 		self.preferences[key] = value
 
 	def loadPreferences(self):
 		for key in self.preferenceKeys:
 			self.preferences[key] = NSUserDefaults.standardUserDefaults().objectForKey_("de.yanone.speedPunk.%s" % (key))
-		
+
 	def savePreferences(self):
 		for key in self.preferenceKeys:
-			if self.preferences.has_key(key):
+			if key in self.preferences:
 				NSUserDefaults.standardUserDefaults().setObject_forKey_(self.preferences[key], "de.yanone.speedPunk.%s" % (key))
-	
+
 	def Open(self):
 		self.prefwindow.w.show()
 		self.RefreshView()
-	
+
 	def Close(self):
 		self.savePreferences()
 		self.prefwindow.w.hide()
@@ -320,7 +322,7 @@ class SpeedPunkLib:
 		# Compile new curve segments list
 		newSegmentPositions = []
 		newCurvesType = self.curves
-		
+
 		# Glyphs
 		if environment == 'GlyphsApp':
 			for p in g.paths:
@@ -335,7 +337,7 @@ class SpeedPunkLib:
 						pv = s[3].pointValue()
 						p4 = Point(pv[0], pv[1])
 						newSegmentPositions.append((p1, p2, p3, p4))
-		
+
 		# RoboFont
 		elif environment == 'RoboFont':
 			for c in g:
@@ -354,14 +356,14 @@ class SpeedPunkLib:
 						p2 = Point(s.points[0].x, s.points[0].y)
 						p3 = Point(s.points[1].x, s.points[1].y)
 						p4 = Point(s.points[2].x, s.points[2].y)
-				
+
 						(h1x, h1y), (h2x, h2y), (x2, y2) = curveConverter.convertSegment((p1.x, p1.y), ((p2.x, p2.y), (p3.x, p3.y), (p4.x, p4.y)),  "curve")
 						p2 = Point(h1x, h1y)
 						p3 = Point(h2x, h2y)
 						p4 = Point(x2, y2)
-				
+
 						newSegmentPositions.append((p1, p2, p3, p4))
-				
+
 					previouspoint = s.points[-1]
 
 		# Curve type has changed
@@ -376,7 +378,7 @@ class SpeedPunkLib:
 			for curvesegment in newSegmentPositions:
 				p1, p2, p3, p4 = curvesegment
 				oldSegments.append(Segment(self, p1, p2, p3, p4))
-			
+
 		else:
 			# Compare stored segments with new coordinates, recalc if necessary
 			for i, curvesegment in enumerate(newSegmentPositions):
@@ -384,12 +386,12 @@ class SpeedPunkLib:
 				if (p1, p2, p3, p4) != (oldSegments[i].p1, oldSegments[i].p2, oldSegments[i].p3, oldSegments[i].p4):
 					oldSegments[i] = Segment(self, p1, p2, p3, p4)
 					changed = True
-	
+
 		self.curvesegments = oldSegments
 		self.glyphchanged = changed
 
 	def UpdateGlyph(self, g, glyphstring = None):
-		
+
 		# Units per em
 		if environment == 'GlyphsApp':
 			self.unitsperem = g.parent.parent.upm
@@ -422,7 +424,7 @@ class SpeedPunkLib:
 			# Things have actually changed
 			if self.glyphchanged:
 				self.values = []
-		
+
 				for segment in self.curvesegments:
 					self.values.extend(segment.Values())
 
@@ -430,7 +432,7 @@ class SpeedPunkLib:
 				if self.values:
 					self.vmin = min(self.values)
 					self.vmax = max(self.values)
-			
+
 		# Draw
 #		context = NSGraphicsContext.currentContext()
 #		context.setCompositingOperation_(12)
@@ -443,17 +445,17 @@ class SpeedPunkLib:
 		drawcount = 0
 		for segment in self.curvesegments:
 			drawcount += segment.Draw()
-				
+
 		# Reset
 		self.glyphchanged = False
 
 	def drawGradientImage(self):
-		
+
 		width = int(self.prefwindow.w.gradientImage.getNSImageView().frame().size[0])
 		height = int(self.prefwindow.w.gradientImage.getNSImageView().frame().size[1])
 		image = NSImage.alloc().initWithSize_((width, height))
 		image.lockFocus()
-		
+
 		for x in range(width):
 			p = x/float(width)
 			R, G, B = InterpolateHexColorList(colors[self.curves], p)
@@ -462,7 +464,7 @@ class SpeedPunkLib:
 			path.moveToPoint_((x, 0))
 			path.lineToPoint_((x, height))
 			path.stroke()
-		
+
 		image.unlockFocus()
 		self.prefwindow.w.gradientImage.setImage(imageObject=image)
 
@@ -471,7 +473,7 @@ class SpeedPunkLib:
 		self.maxhistogram = 0
 		for v in self.values:
 			key = int(Interpolate(1, width, (v - self.vmin) / (self.vmax - self.vmin))) - 1
-			if not self.histogram.has_key(key):
+			if key not in self.histogram:
 				self.histogram[key] = 0
 			self.histogram[key] += 1
 			if self.histogram[key] > self.maxhistogram:
@@ -480,24 +482,24 @@ class SpeedPunkLib:
 	def	drawHistogram(self):
 		width = int(self.prefwindow.w.histogramImage.getNSImageView().frame().size[0])
 		height = int(self.prefwindow.w.histogramImage.getNSImageView().frame().size[1])
-		
+
 		image = NSImage.alloc().initWithSize_((width, height))
 		image.lockFocus()
 		image.setBackgroundColor_(NSColor.colorWithCalibratedRed_green_blue_alpha_(1, 1, 1, 0))
 		NSColor.colorWithCalibratedRed_green_blue_alpha_(0, 0, 0, .8).set()
-		
+
 		for x in range(width):
-			if self.histogram.has_key(x):
+			if x in self.histogram:
 				path = NSBezierPath.bezierPath()
 				path.moveToPoint_((x + .5, 0))
 				y = (self.histogram[x] / float(self.maxhistogram)) * height
 
 				path.lineToPoint_((x + .5, y))
 				path.stroke()
-		
+
 		image.unlockFocus()
 		self.prefwindow.w.histogramImage.setImage(imageObject=image)
-		
+
 
 class Curvature:
 	def __init__(self, segment, set1, set2):
@@ -508,14 +510,14 @@ class Curvature:
 		self.illustrationPosition = None
 		self.fader = None
 		self.useFader = None
-		
+
 	def Draw(self):
 
 		# Color
 		if self.segment.speedpunklib.glyphchanged or self.fader != self.segment.speedpunklib.getPreference('fader') or self.useFader != self.segment.speedpunklib.getPreference('useFader'):
 			self.fader = self.segment.speedpunklib.getPreference('fader')
 			self.useFader = self.segment.speedpunklib.getPreference('useFader')
-			
+
 			# Color
 			p = (self.Value() - self.segment.speedpunklib.vmin) / (self.segment.speedpunklib.vmax - self.segment.speedpunklib.vmin)
 			R, G, B = InterpolateHexColorList(colors[self.segment.speedpunklib.curves], p)
@@ -541,22 +543,22 @@ class Curvature:
 				A = Interpolate(faderMin, faderMax, v)
 			else:
 				A = faderMax
-				
-	
+
+
 			self.color = NSColor.colorWithCalibratedRed_green_blue_alpha_(R, G, B, A)
 
 		# Recalc illustration
 		if self.segment.speedpunklib.glyphchanged or self.curveGain != self.segment.speedpunklib.getPreference('curveGain') or self.illustrationPosition != self.segment.speedpunklib.getPreference('illustrationPosition'):
 			self.curveGain = self.segment.speedpunklib.getPreference('curveGain')
 			self.illustrationPosition = self.segment.speedpunklib.getPreference('illustrationPosition')
-			
+
 			k1 = self.set1[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem**2
 			k2 = self.set2[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem**2
 
 			if self.illustrationPosition == 'outsideOfGlyph':
 				k1 = abs(k1)
 				k2 = abs(k2)
-			
+
 				# TrueType
 				if self.segment.speedpunklib.curves == 'quadratic':
 					k1 *= -1
@@ -567,7 +569,7 @@ class Curvature:
 			self.oncurve2 = (self.set2[0].x, self.set2[0].y)
 			self.outerspace2 = (self.set2[0].x + (self.set2[1].y / abs(self.set2[1]) * k2), self.set2[0].y - (self.set2[1].x / abs(self.set2[1]) * k2))
 			self.outerspace1 = (self.set1[0].x + (self.set1[1].y / abs(self.set1[1]) * k1), self.set1[0].y - (self.set1[1].x / abs(self.set1[1]) * k1) )
-		
+
 			self.path = NSBezierPath.bezierPath()
 			# OnCurve
 			self.path.moveToPoint_(self.oncurve1)
@@ -585,19 +587,19 @@ class Curvature:
 #		self.path.stroke()
 
 		return 1
-		
+
 #		else:
 #			return 0
 
 	def Value(self):
 		return abs(self.set1[3] * drawfactor) + abs(self.set2[3] * drawfactor) / 2.0
 
-		
+
 class Segment:
 	def __init__(self, speedpunklib, p1, p2, p3, p4):
-		
+
 		self.speedpunklib = speedpunklib
-		
+
 		self.p1 = p1
 		self.p2 = p2
 		self.p3 = p3
@@ -605,14 +607,14 @@ class Segment:
 
 		self.highestvalue = None
 		self.lowestvalue = None
-		
+
 		### Calc
 		steps = max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1)
-		
+
 		self.curvatureSets = []
-		
+
 		sets = []
-		for i in range(steps + 1):
+		for i in range(int(round(steps)) + 1):
 			t = i / float(steps)
 			r, r1, r2 = solveCubicBezier(p1, p2, p3, p4, t)
 			try:
@@ -623,8 +625,8 @@ class Segment:
 
 		for set1, set2 in ListPairs(sets, 2):
 			self.curvatureSets.append(Curvature(self, set1, set2))
-			
-	
+
+
 	def Draw(self):
 
 		drawcount = 0
@@ -705,4 +707,4 @@ class SpeedPunkPrefWindow(object):
 		else:
 			self.w.faderCheckBox.setPosSize(((10, 100, -10, 17)))
 			self.w.resize(150, 130, animate=True)
-		
+
