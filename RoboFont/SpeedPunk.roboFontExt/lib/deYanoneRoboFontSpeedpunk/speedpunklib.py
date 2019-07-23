@@ -12,10 +12,10 @@
 #
 ##########################################################################################
 
-import time, os, math, sys, plistlib
+import time, os, math, sys, plistlib, traceback
 
 import vanilla
-from AppKit import NSBezierPath, NSColor, NSBundle, NSUserDefaults, NSImage
+from AppKit import NSBezierPath, NSColor, NSBundle, NSUserDefaults, NSImage, NSLog
 
 
 ##########################################################################################
@@ -621,7 +621,7 @@ class Segment:
 				k = solveCubicBezierCurvature(r, r1, r2)
 				sets.append((r, r1, r2, k))
 			except:
-				pass
+				NSLog('Speed Punk:\n%s' % traceback.format_exc())
 
 		for set1, set2 in ListPairs(sets, 2):
 			self.curvatureSets.append(Curvature(self, set1, set2))
