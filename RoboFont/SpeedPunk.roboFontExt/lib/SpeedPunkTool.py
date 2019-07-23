@@ -12,8 +12,6 @@
 #
 ##########################################################################################
 
-print('Hello')
-
 from mojo.events import installTool, EditingTool
 from deYanoneRoboFontSpeedpunk import speedpunklib
 from mojo.extensions import ExtensionBundle
