@@ -37,8 +37,13 @@ class SpeedPunkTool(EditingTool):
 		self.speedpunklib.Close()
 
 	def drawBackground(self, scale):
-		if self.getGlyph() != None:
-			self.speedpunklib.UpdateGlyph(self.getGlyph())
+		try:
+
+			if self.getGlyph() != None:
+				self.speedpunklib.UpdateGlyph(self.getGlyph())
+
+		except:
+			NSLog('Speed Punk:\n%s' % traceback.format_exc())
 
 	def glyphWindowWillClose(self, a):
 		self.speedpunklib.Close()
