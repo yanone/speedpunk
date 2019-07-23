@@ -609,12 +609,12 @@ class Segment:
 		self.lowestvalue = None
 
 		### Calc
-		steps = max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1)
+		steps = int(round(max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1)))
 
 		self.curvatureSets = []
 
 		sets = []
-		for i in range(int(round(steps)) + 1):
+		for i in range(steps + 1):
 			t = i / float(steps)
 			r, r1, r2 = solveCubicBezier(p1, p2, p3, p4, t)
 			try:
