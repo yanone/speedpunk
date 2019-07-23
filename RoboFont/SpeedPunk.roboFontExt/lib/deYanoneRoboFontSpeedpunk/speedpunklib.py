@@ -650,6 +650,10 @@ class SpeedPunkPrefWindow(object):
 								closable = False,
 								autosaveName = 'de.yanone.speedPunk.%s.prefWindow' % (environment),
 								)
+
+		from AppKit import NSHUDWindowMask, NSUtilityWindowMask, NSTitledWindowMask, NSBorderlessWindowMask
+		self.w.getNSWindow().setStyleMask_(0 << 1 | 0 << 2 | NSUtilityWindowMask | NSTitledWindowMask | NSBorderlessWindowMask)
+
 		self.w.illustrationPositionRadioGroup = vanilla.RadioGroup((10, 10, -10, 40),
 								["Outside of glyph", "Outer side of curve"],
 								callback=self.radioGroupCallback,
