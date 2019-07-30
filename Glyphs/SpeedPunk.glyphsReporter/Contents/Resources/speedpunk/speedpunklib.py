@@ -659,8 +659,7 @@ class Segment:
 				result = solveCubicBezierCurvature(a, b, c, d, t)
 				sets.append(result)
 			except:
-				import traceback
-				print traceback.format_exc()
+				pass
 		for set1, set2 in ListPairs(sets, 2):
 			self.curvatureSets.append(Curvature(self, set1, set2))
 			
