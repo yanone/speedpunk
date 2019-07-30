@@ -621,7 +621,7 @@ class Segment:
 				k = solveCubicBezierCurvature(r, r1, r2)
 				sets.append((r, r1, r2, k))
 			except:
-				NSLog('Speed Punk:\n%s' % traceback.format_exc())
+				pass
 
 		for set1, set2 in ListPairs(sets, 2):
 			self.curvatureSets.append(Curvature(self, set1, set2))
