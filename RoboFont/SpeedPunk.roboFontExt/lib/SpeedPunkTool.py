@@ -12,50 +12,53 @@
 #
 ##########################################################################################
 
-from mojo.events import installTool, EditingTool
-from deYanoneRoboFontSpeedpunk import speedpunklib
-from mojo.extensions import ExtensionBundle
-bundle = ExtensionBundle("SpeedPunk")
-
 import traceback
 from AppKit import NSLog
 
-################################################################################################################
+try:
 
-speedpunklib = speedpunklib.SpeedPunkLib()
+	from mojo.events import installTool, EditingTool
+	from deYanoneRoboFontSpeedpunk import speedpunklib
+	from mojo.extensions import ExtensionBundle
+	bundle = ExtensionBundle("SpeedPunk")
 
-class SpeedPunkTool(EditingTool):
 
-	def becomeActive(self):
-		self.speedpunklib = speedpunklib
-		self.speedpunklib.tool = self
-		self.speedpunklib.Open()
+	################################################################################################################
 
-	def becomeInactive(self):
-		self.speedpunklib.Close()
+	class SpeedPunkTool(EditingTool):
 
-	def drawBackground(self, scale):
-		try:
+		def becomeActive(self):
+			self.speedpunklib = speedpunklib.SpeedPunkLib()
+			self.speedpunklib.tool = self
+			self.speedpunklib.Open()
 
-			if self.getGlyph() != None:
-				self.speedpunklib.UpdateGlyph(self.getGlyph())
+		def becomeInactive(self):
+			self.speedpunklib.Close()
 
-		except:
-			NSLog('Speed Punk:\n%s' % traceback.format_exc())
+		def drawBackground(self, scale):
+			try:
 
-	def glyphWindowWillClose(self, a):
-		self.speedpunklib.Close()
+				if self.getGlyph() != None:
+					self.speedpunklib.UpdateGlyph(self.getGlyph())
 
-	def glyphWindowDidOpen(self, a):
-		self.speedpunklib.Open()
+			except:
+				NSLog('Speed Punk:\n%s' % traceback.format_exc())
 
-	def getToolbarTip(self):
-		return "Speed Punk"
+		def glyphWindowWillClose(self, a):
+			self.speedpunklib.Close()
 
-	def getToolbarIcon(self):
-		NSImage = bundle.getResourceImage("toolbar")
-		if NSImage:
-			return NSImage
+		def glyphWindowDidOpen(self, a):
+			self.speedpunklib.Open()
 
-installTool(SpeedPunkTool())
+		def getToolbarTip(self):
+			return "Speed Punk"
 
+		def getToolbarIcon(self):
+			NSImage = bundle.getResourceImage("toolbar")
+			if NSImage:
+				return NSImage
+
+	installTool(SpeedPunkTool())
+
+except:
+	NSLog('Speed Punk:\n%s' % traceback.format_exc())
