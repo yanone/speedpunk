@@ -2,7 +2,7 @@
 
 ##########################################################################################
 #
-#	SpeedPunk 1.1
+#	SpeedPunk 1.12
 #	Visualisation tool of outline curvature for font editors.
 #	
 #	Commercial license. Not to be given to other people.
@@ -214,7 +214,7 @@ try:
 except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
-VERSION = '1.11'
+VERSION = '1.12'
 
 if environment == 'RoboFont':
 	from lib.tools.bezierTools import curveConverter
