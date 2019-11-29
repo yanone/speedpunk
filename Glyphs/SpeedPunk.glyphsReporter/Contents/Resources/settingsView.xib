@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="13529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="13529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,8 +20,8 @@
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="141" translatesAutoresizingMaskIntoConstraints="NO" id="iM5-u4-PlU">
                     <rect key="frame" x="20" y="97" width="145" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed Punk v1.1 Settings" id="MpF-Ww-0Vd">
-                        <font key="font" metaFont="system" size="11"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed Punk v1.13 Settings" id="MpF-Ww-0Vd">
+                        <font key="font" metaFont="menu" size="11"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -33,17 +33,17 @@
                     <size key="cellSize" width="181" height="18"/>
                     <buttonCell key="prototype" type="radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="HNw-X8-gwT">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="menu" size="11"/>
                     </buttonCell>
                     <cells>
                         <column>
                             <buttonCell type="radio" title="Outside of glyph" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="3ZB-4e-WGF">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="smallSystem"/>
+                                <font key="font" metaFont="menu" size="11"/>
                             </buttonCell>
                             <buttonCell type="radio" title="Outer side of curve" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="38c-0D-izC">
                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="smallSystem"/>
+                                <font key="font" metaFont="menu" size="11"/>
                             </buttonCell>
                         </column>
                     </cells>
@@ -55,7 +55,7 @@
                     <rect key="frame" x="18" y="33" width="28" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Gain" id="PWU-f4-6sZ">
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="menu" size="11"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
@@ -73,7 +73,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Show Historgram" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="MA5-dI-rlC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                        <font key="font" metaFont="smallSystem"/>
+                        <font key="font" metaFont="menu" size="11"/>
                     </buttonCell>
                     <connections>
                         <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.useFader" id="u0s-sA-l9E"/>
@@ -88,9 +88,9 @@
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sl7-CF-Kzt">
-                    <rect key="frame" x="209" y="94" width="71" height="17"/>
+                    <rect key="frame" x="213" y="94" width="63" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="inline" title="Website →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tya-T9-UP3">
+                    <buttonCell key="cell" type="inline" title="Github →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tya-T9-UP3">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystemBold"/>
                     </buttonCell>
