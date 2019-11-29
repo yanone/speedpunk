@@ -1,5 +1,0 @@
-You are entitled to free 1.x updates.
-
-As a customer of my online shop at https://yanone.de/buy/ you will be notified via email of the update. Thereafter you log into the shop and download the update.
-
-Also, Glyphs.app will inform you via the user interface, if you have enabled the option to check for updates for plugins.
