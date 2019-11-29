@@ -263,46 +263,19 @@ class SpeedPunkLib(object):
 		self.drawGradientImage()
 		'''
 
-		## Trial
-		self.trial = False
-		if self.trial:
-			self.trialKey = 'clearDrawInitString'
-			self.trialPeriod = 30
-			if not Glyphs.defaults[self.trialKey]:
-				Glyphs.defaults[self.trialKey] = int(time.time())
-				Message(Glyphs.localize({'en': u'Welcome to Speed Punk %s' % VERSION, 
-				   'en': u'Willkommen zu Speed Punk %s' % VERSION}), Glyphs.localize({'en': "Your %s-day trial period of Speed Punk has started. You\xe2\x80\x99ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plugin settings have moved into the context menu (right click).\nTo learn more about Speed Punk, please visit\nhttps://yanone.de/software/speedpunk/.\n\nEnjoy and make sure to follow @yanone on Twitter." % self.trialPeriod, 
-				   'de': u"Deine %s-Tage-Testperiode von Speed Punk hat begonnen. Du findest mich im Ansicht-Men\xfc unter ‘Speed Punk anzeigen’ oder mit dem Tastenk\xfcrzel Cmd+Shift+X. Die Plugin-Einstellungen sind ins Kontextmenü (Rechtsklick) gewandert.\nMehr \xfcber Speed Punk erf\xe4hrst Du hier:\nhttps://yanone.de/software/speedpunk/.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter." % self.trialPeriod}))
-			if 0 < self.trialDaysLeft() <= self.trialPeriod:
-				Glyphs.showNotification(Glyphs.localize({'en': 'Speed Punk trial period', 
-				   'en': u'Speed Punk Testperiode'}), Glyphs.localize({'en': '%s days left' % self.trialDaysLeft(), 
-				   'de': u'Noch %s Tage \xfcbrig' % self.trialDaysLeft()}))
-			elif self.trialDaysLeft() <= 0:
-				Message(Glyphs.localize({'en': 'Speed Punk trial period', 
-				   'en': u'Speed Punk Testperiode'}), Glyphs.localize({'en': 'Your %s-day trial period of Speed Punk has expired.\nPlease hop over to https://yanone.de/buy/software/ to purchase the plug-in for just 20 EUR (15 EUR for students).' % self.trialPeriod, 
-				   'de': u'Deine %s-Tage-Testperiode von Speed Punk ist ausgelaufen.\nAuf https://yanone.de/buy/software/\nkannst Du das Plug-In f\xfcr nur 20 EUR (15 EUR f\xfcr Studenten) erwerben.' % self.trialPeriod}))
-		if justInstalled and self.trial == False:
+		## Welcome
+		if justInstalled and environment == 'GlyphsApp':
 			Message(Glyphs.localize({
 				'en': u'Welcome to Speed Punk %s' % VERSION,
 				'de': u'Willkommen zu Speed Punk %s' % VERSION,
 			}), Glyphs.localize({
-				'en': u'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plugin settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
-				'de': u'Danke zur Wahl von Speed Punk. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X. Die Plugin-Einstellungen sind ins Kontextmenü (Rechtsklick) gewandert.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
+				'en': u'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plug-in settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
+				'de': u'Danke zur Wahl von Speed Punk. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X. Die Plug-In-Einstellungen sind ins Kontextmenü (Rechtsklick) gewandert.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
 			})
 			)
+
 		return
 
-	def trialDaysLeft(self):
-		return self.trialPeriod - int((int(time.time()) - Glyphs.defaults[self.trialKey]) / float(86400))
-
-	def allowed(self):
-		if self.trial == True:
-			if self.trialDaysLeft() > 0:
-				return True
-			return False
-		else:
-			return True
-			
 	def getPreference(self, key):
 		if self.preferences.has_key(key):
 			return self.preferences[key]
