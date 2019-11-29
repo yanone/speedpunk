@@ -2,7 +2,7 @@
 
 ##########################################################################################
 #
-#	SpeedPunk 1.12
+#	SpeedPunk 1.13
 #	Visualisation tool of outline curvature for font editors.
 #	
 #	Commercial license. Not to be given to other people.

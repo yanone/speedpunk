@@ -21,9 +21,9 @@
 	<key>productPageURL</key>
 	<string>https://yanone.de/software/speedpunk/</string>
 	<key>CFBundleVersion</key>
-	<string>1.12</string>
+	<string>1.13</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.12</string>
+	<string>1.13</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 2018 by Yanone</string>
 	<key>NSPrincipalClass</key>
