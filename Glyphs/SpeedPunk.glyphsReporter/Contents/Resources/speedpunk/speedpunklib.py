@@ -214,7 +214,7 @@ try:
 except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
-VERSION = '1.12'
+VERSION = '1.13'
 
 if environment == 'RoboFont':
 	from lib.tools.bezierTools import curveConverter
@@ -266,13 +266,13 @@ class SpeedPunkLib(object):
 		## Welcome
 		if justInstalled and environment == 'GlyphsApp':
 			Message(Glyphs.localize({
-				'en': u'Welcome to Speed Punk %s' % VERSION,
-				'de': u'Willkommen zu Speed Punk %s' % VERSION,
-			}), Glyphs.localize({
 				'en': u'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plug-in settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
 				'de': u'Danke zur Wahl von Speed Punk. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X. Die Plug-In-Einstellungen sind ins Kontextmenü (Rechtsklick) gewandert.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
-			})
-			)
+			}),
+			Glyphs.localize({
+				'en': u'Welcome to Speed Punk %s' % VERSION,
+				'de': u'Willkommen zu Speed Punk %s' % VERSION,
+			})			)
 
 		return
 
@@ -392,47 +392,46 @@ class SpeedPunkLib(object):
 
 	def UpdateGlyph(self, g, glyphstring = None):
 
-		if self.allowed():
-			# Units per em
-			if environment == 'GlyphsApp':
-				self.unitsperem = g.parent.parent.upm
-			elif environment == 'RoboFont':
-				self.unitsperem = g.getParent().info.unitsPerEm
+		# Units per em
+		if environment == 'GlyphsApp':
+			self.unitsperem = g.parent.parent.upm
+		elif environment == 'RoboFont':
+			self.unitsperem = g.getParent().info.unitsPerEm
 
-			# Compare string to see if glyph changed
-			if (glyphstring and glyphstring != self.glyphstring) or not glyphstring:
-				if glyphstring:
-					self.glyphstring = glyphstring
+		# Compare string to see if glyph changed
+		if (glyphstring and glyphstring != self.glyphstring) or not glyphstring:
+			if glyphstring:
+				self.glyphstring = glyphstring
 
-				# Number of curve segments, quick gathering
-				self.numberofcurvesegments = self.calcNumberofcurvesegments(g)
-				# Assign new segments
-				self.gatherSegments(g)
-				# Things have actually changed
-				if self.glyphchanged:
-					self.values = []
-			
-					for segment in self.curvesegments:
-						self.values.extend(segment.Values())
+			# Number of curve segments, quick gathering
+			self.numberofcurvesegments = self.calcNumberofcurvesegments(g)
+			# Assign new segments
+			self.gatherSegments(g)
+			# Things have actually changed
+			if self.glyphchanged:
+				self.values = []
+		
+				for segment in self.curvesegments:
+					self.values.extend(segment.Values())
 
-					# Glyph has outlines
-					if self.values:
-						self.vmin = min(self.values)
-						self.vmax = max(self.values)
-			# Draw
-	#		context = NSGraphicsContext.currentContext()
-	#		context.setCompositingOperation_(12)
-	#		context.setShouldAntialias_(False)
+				# Glyph has outlines
+				if self.values:
+					self.vmin = min(self.values)
+					self.vmax = max(self.values)
+		# Draw
+#		context = NSGraphicsContext.currentContext()
+#		context.setCompositingOperation_(12)
+#		context.setShouldAntialias_(False)
 
-			if self.getPreference('useFader'):
-				self.buildHistogram(self.tool.histWidth)
-				#self.drawHistogramImage()
+		if self.getPreference('useFader'):
+			self.buildHistogram(self.tool.histWidth)
+			#self.drawHistogramImage()
 
-			for segment in self.curvesegments:
-				segment.DrawSegment()
-			
-			# Reset
-			self.glyphchanged = False
+		for segment in self.curvesegments:
+			segment.DrawSegment()
+		
+		# Reset
+		self.glyphchanged = False
 
 	def iterateSegments(self):
 		for segment in self.curvesegments:
