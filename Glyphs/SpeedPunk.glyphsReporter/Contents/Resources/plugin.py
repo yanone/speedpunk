@@ -91,7 +91,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 
 	@objc.IBAction
 	def visitWebsite_(self, sender):
-		webbrowser.open_new_tab('https://yanone.de')
+		webbrowser.open_new_tab('https://github.com/yanone/speedpunk')
 
 	@objc.IBAction
 	def visitTwitter_(self, sender):
