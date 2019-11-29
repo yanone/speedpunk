@@ -1,0 +1,13 @@
+{
+    "lastUpdate" : "2019-11-29 18:56",
+    "extensions" : [
+    	{
+            "extensionName": "Speed Punk",
+            "repository" :  "https://github.com/yanone/speedpunk",
+            "extensionPath" :  "SpeedPunk.roboFontExt",
+            "description" : "Understand and improve your outlines with this curvature comb visualization.",
+            "developer" : "Yanone",
+            "developerURL" : "https://yanone.de",
+            "tags" : ["contours", "curvature", "bezier", "visual"]
+        }]
+}
