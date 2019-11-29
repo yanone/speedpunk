@@ -20,6 +20,16 @@ The curves play an important role in many areas of industrial design, namely aqu
 
 The plugins are installed through Glyphs.app’s built-in *Plugin Manager* or RoboFont’s *[Mechanic 2](https://robofontmechanic.com) Extension Manager*.
 
+# How To Use
+
+### Glyphs.app
+
+The plug-in is activated in the View menu under *Show Speed Punk* or with the keyboard shortcut *Cmd+Shift+X*. The plug-in settings have moved into the context menu (right click).
+
+### RoboFont
+
+The plug-in is activated through the anarchy-icon in the toolbar.
+
 # License
 
 Formerly a commercial plug-in sold by Yanone, it is free & open source software as of December 2019 courtesy of Google Fonts, published under the **Apache 2.0** license.
