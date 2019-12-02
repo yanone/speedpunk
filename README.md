@@ -38,7 +38,7 @@ Formerly a commercial plug-in sold by Yanone, it is free & open source software 
 
 # Contribution
 
-I accept Pull Requests under the condition that utmost care is taken as to keeping the *speedpunklib* library for both Glyphs and RoboFont versions inside this repository identical.
+I accept Pull Requests under the condition that utmost care is taken as to keeping the *speedpunklib* library for both Glyphs and RoboFont versions inside this repository identical. Maybe contact me first, because I may want to sort out things first.
 
 # History
 
