@@ -2,6 +2,8 @@ This repository hosts Yanone’s popular curvature illustration plug-in for [Gly
 
 # Speed Punk
 
+![Curvature visualization with Speed Punk](./Resources/speedpunkglyphs.jpg)
+
 Speed Punk is a learning tool. It teaches you to better understand the nature of Bézier curves and their curvature, the technical basis of digital type design.
 
 Speed Punk illustrates the curvature on top of the outlines with shapes that stand perpendicular on the outline. This is a technique commonly known from CAD software. The “bigger” the illustration is (the further away from the outline), the higher the curvature is at this point. This way it is easy to judge curvature continuity at on-curve points: if the illustrations are of same distance from the on-curve point (they “meet”), the two curves are of continuous curvature. If you see a jump in the curvature illustration, curvature is discontinuous. Simple. Mathematically speaking the curvature is the first derivative of the curve’s direction and it is being calculated using the general cubic Bézier equation.
