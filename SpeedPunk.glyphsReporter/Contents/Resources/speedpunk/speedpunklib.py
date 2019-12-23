@@ -505,16 +505,19 @@ class SpeedPunkLib(object):
 		self.prefwindow.w.histogramImage.setImage(imageObject=image)
 	
 	def drawHistogram(self, originX, originY, width, height):
-		NSColor.colorWithWhite_alpha_(0, .8).set()
-		
+		NSColor.colorWithWhite_alpha_(0, .5).set()
+		path = NSBezierPath.bezierPath()
+		path.moveToPoint_((originX, originY - 2))
+		prevY = 0
 		for x in range(width):
-				path = NSBezierPath.bezierPath()
 			if x in self.histogram:
-				path.moveToPoint_((x + .5 + originX, originY))
 				y = (self.histogram[x] / float(self.maxhistogram)) * height
-
 				path.lineToPoint_((x + .5 + originX, y + originY))
-				path.stroke()
+			else:
+				path.lineToPoint_((x + .5 + originX, originY - 2))
+		path.lineToPoint_((originX + width, originY - 2))
+		path.closePath()
+		path.fill()
 
 class Curvature:
 	def __init__(self, segment, set1, set2):
