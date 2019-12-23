@@ -312,7 +312,9 @@ class SpeedPunkLib(object):
 
 	def loadPreferences(self):
 		for key in self.preferenceKeys:
-			self.preferences[key] = NSUserDefaults.standardUserDefaults().objectForKey_("de.yanone.speedPunk.%s" % (key))
+			value = NSUserDefaults.standardUserDefaults().objectForKey_("de.yanone.speedPunk.%s" % (key))
+			self.preferences[key] = value
+			setattr(self, key, value)
 		
 	def savePreferences(self):
 		for key in self.preferenceKeys:
@@ -450,7 +452,7 @@ class SpeedPunkLib(object):
 #		context.setCompositingOperation_(12)
 #		context.setShouldAntialias_(False)
 
-		if self.getPreference('useFader'):
+		if self.useFader:
 			self.buildHistogram(self.tool.histWidth)
 			#self.drawHistogramImage()
 
@@ -532,10 +534,12 @@ class Curvature:
 		return self._DrawCurvaturePaths()
 	
 	def _DrawCurvatureColor(self):
-		if self.segment.speedpunklib.glyphchanged or self.fader != self.segment.speedpunklib.getPreference('fader') or self.useFader != self.segment.speedpunklib.getPreference('useFader'):
+		prefFader = self.segment.speedpunklib.fader
+		prefUseFader = self.segment.speedpunklib.useFader
+		if self.segment.speedpunklib.glyphchanged or self.fader != prefFader or self.useFader != prefUseFader:
 			#print("__color")
-			self.fader = self.segment.speedpunklib.getPreference('fader')
-			self.useFader = self.segment.speedpunklib.getPreference('useFader')
+			self.fader = prefFader
+			self.useFader = prefUseFader
 			
 			# Color
 			p = (self.Value() - self.segment.speedpunklib.vmin) / (self.segment.speedpunklib.vmax - self.segment.speedpunklib.vmin)
@@ -545,9 +549,9 @@ class Curvature:
 			# Fader
 			faderMin = .2
 			faderMax = .7
-			if self.segment.speedpunklib.getPreference('useFader'):
+			if prefUseFader:
 				# Alpha
-				fader = self.segment.speedpunklib.getPreference('fader')
+				fader = prefFader
 				histerese = .2
 
 				if p > fader:
@@ -568,8 +572,8 @@ class Curvature:
 
 	def _DrawCurvatureIllustration(self):
 		# Recalc illustration
-		prefIllustrationPositionIndex = int(self.segment.speedpunklib.getPreference('illustrationPositionIndex'))
-		prefCurveGain = self.segment.speedpunklib.getPreference('curveGain')
+		prefIllustrationPositionIndex = int(self.segment.speedpunklib.illustrationPositionIndex)
+		prefCurveGain = self.segment.speedpunklib.curveGain
 		
 		if self.segment.speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPosition != prefIllustrationPositionIndex:
 			#print("__illustration")
