@@ -218,11 +218,11 @@ colors = {
 }
 
 c = colors['cubic']
-cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 1.0))
+cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 0.7), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 0.7), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 0.7))
 cubicGradient = NSGradient.alloc().initWithColors_(cs)
 
 c = colors['quadratic']
-cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 1.0))
+cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 0.7), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 0.7), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 0.7))
 quadraticGradient = NSGradient.alloc().initWithColors_(cs)
 
 gradients = {
