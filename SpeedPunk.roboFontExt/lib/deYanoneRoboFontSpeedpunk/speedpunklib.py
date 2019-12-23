@@ -234,7 +234,11 @@ except:
 	TOTALSEGMENTS = 400
 MINSEGMENTS = 5
 
-plist = plistlib.readPlist(os.path.join(os.path.dirname(__file__), '..', '..', 'info.plist'))
+if sys.version_info.major < 3:
+	plist = plistlib.readPlist(os.path.join(os.path.dirname(__file__), '..', '..', 'info.plist'))
+else:
+	with open(os.path.join(os.path.dirname(__file__), '..', '..', 'info.plist'), 'rb') as pl_file:
+		plist = plistlib.load(pl_file)
 VERSION = plist['version']
 
 if environment == 'RoboFont':
