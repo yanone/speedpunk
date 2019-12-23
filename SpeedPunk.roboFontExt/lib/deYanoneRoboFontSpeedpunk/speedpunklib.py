@@ -400,7 +400,7 @@ class SpeedPunkLib:
 		if environment == 'GlyphsApp':
 			self.unitsperem = g.parent.parent.upm
 		elif environment == 'RoboFont':
-			self.unitsperem = g.getParent().info.unitsPerEm
+			self.unitsperem = g.font.info.unitsPerEm
 
 		# Compare string to see if glyph changed
 		if (glyphstring and glyphstring != self.glyphstring) or not glyphstring:
