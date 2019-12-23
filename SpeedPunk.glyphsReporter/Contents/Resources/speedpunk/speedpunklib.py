@@ -58,9 +58,9 @@ def InterpolateHexColorList(colors, p):
 	if p > 1: p = 1
 	
 	if p == 0:
-		return (int(colors[0][0:2], 16) / 255.0, int(colors[0][2:4], 16) / 255.0, int(colors[0][4:6], 16) / 255.0)
+		return colors[0]
 	elif p == 1:
-		return (int(colors[-1][0:2], 16) / 255.0, int(colors[-1][2:4], 16) / 255.0, int(colors[-1][4:6], 16) / 255.0)
+		return colors[-1]
 	else:
 		for i in range(len(colors)):
 			
@@ -72,14 +72,14 @@ def InterpolateHexColorList(colors, p):
 				
 #				print "interpolate between", before, after, p, v
 
-				R = Interpolate(int(colors[i][0:2], 16) / 255.0, int(colors[i + 1][0:2], 16) / 255.0, v)
-				G = Interpolate(int(colors[i][2:4], 16) / 255.0, int(colors[i + 1][2:4], 16) / 255.0, v)
-				B = Interpolate(int(colors[i][4:6], 16) / 255.0, int(colors[i + 1][4:6], 16) / 255.0, v)
+				R = Interpolate(colors[i][0], colors[i + 1][0], v)
+				G = Interpolate(colors[i][1], colors[i + 1][1], v)
+				B = Interpolate(colors[i][2], colors[i + 1][2], v)
 				return (R, G, B)
 			elif p == before:
-				return (int(colors[i][0:2], 16) / 255.0, int(colors[i][2:4], 16) / 255.0, int(colors[i][4:6], 16) / 255.0)
+				return colors[i]
 			elif p == after:
-				return (int(colors[i + 1][0:2], 16) / 255.0, int(colors[i + 1][2:4], 16) / 255.0, int(colors[i + 1][4:6], 16) / 255.0)
+				return colors[i + 1]
 
 def Interpolate(a, b, p, limit = False):
 	u"""\
@@ -203,6 +203,19 @@ colors = {
 	'cubic': ('8b939c', 'f29400', 'e3004f'),
 	'quadratic': ('8b939c', 'f29400', '006f9b')
 	}
+
+colors = {
+	'cubic': (
+		(int("8b", 16) / 255.0, int("93", 16) / 255.0, int("9c", 16) / 255.0),
+		(int("f2", 16) / 255.0, int("94", 16) / 255.0, int("00", 16) / 255.0),
+		(int("e3", 16) / 255.0, int("00", 16) / 255.0, int("4f", 16) / 255.0)
+	),
+	'quadratic': (
+		(int("8b", 16) / 255.0, int("93", 16) / 255.0, int("9c", 16) / 255.0),
+		(int("f2", 16) / 255.0, int("94", 16) / 255.0, int("00", 16) / 255.0),
+		(int("00", 16) / 255.0, int("6f", 16) / 255.0, int("9b", 16) / 255.0)
+	)
+}
 curveGain = (.1, 3)
 drawfactor = .01
 
