@@ -16,7 +16,7 @@
 
 import math, time, traceback
 
-from AppKit import NSUserDefaults, NSImage, NSColor, NSBezierPath, NSPoint
+from AppKit import NSUserDefaults, NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRect
 
 
 
@@ -216,6 +216,20 @@ colors = {
 		(int("00", 16) / 255.0, int("6f", 16) / 255.0, int("9b", 16) / 255.0)
 	)
 }
+
+c = colors['cubic']
+cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 1.0))
+cubicGradient = NSGradient.alloc().initWithColors_(cs)
+
+c = colors['quadratic']
+cs = (NSColor.colorWithCalibratedRed_green_blue_alpha_(c[0][0], c[0][1], c[0][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[1][0], c[1][1], c[1][2], 1.0), NSColor.colorWithCalibratedRed_green_blue_alpha_(c[2][0], c[2][1], c[2][2], 1.0))
+quadraticGradient = NSGradient.alloc().initWithColors_(cs)
+
+gradients = {
+	'cubic': cubicGradient,
+	'quadratic' : quadraticGradient
+}
+
 curveGain = (.1, 3)
 drawfactor = .01
 
@@ -463,14 +477,8 @@ class SpeedPunkLib(object):
 		self.prefwindow.w.gradientImage.setImage(imageObject=image)
 		
 	def drawGradient(self, originX, originY, width, height):
-		for x in range(width):
-			p = x/float(width)
-			R, G, B = InterpolateHexColorList(colors[self.curves], p)
-			NSColor.colorWithCalibratedRed_green_blue_alpha_(R, G, B, 1.0).set()
-			path = NSBezierPath.bezierPath()
-			path.moveToPoint_((x + originX, originY))
-			path.lineToPoint_((x + originX, height + originY))
-			path.stroke()
+		gradient = gradients[self.curves]
+		gradient.drawInRect_angle_(NSMakeRect(originX, originY, width, height), 0)
 
 	def buildHistogram(self, width):
 		self.histogram = {}
