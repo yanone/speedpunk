@@ -499,7 +499,7 @@ class Curvature:
 		self.set1 = set1
 		self.set2 = set2
 		self.curveGain = None
-		self.illustrationPositionIndex = None
+		self.illustrationPosition = None
 		self.fader = None
 		self.useFader = None
 		
@@ -550,7 +550,7 @@ class Curvature:
 		prefIllustrationPositionIndex = int(self.segment.speedpunklib.getPreference('illustrationPositionIndex'))
 		prefCurveGain = self.segment.speedpunklib.getPreference('curveGain')
 		
-		if self.segment.speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPositionIndex != prefIllustrationPositionIndex:
+		if self.segment.speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPosition != prefIllustrationPositionIndex:
 			#print("__illustration")
 			self.curveGain = prefCurveGain
 			self.illustrationPosition = prefIllustrationPositionIndex
