@@ -304,7 +304,7 @@ class SpeedPunkLib(object):
 		return
 
 	def getPreference(self, key):
-		if self.preferences.has_key(key):
+		if key in self.preferences:
 			return self.preferences[key]
 		
 	def setPreference(self, key, value):
@@ -316,7 +316,7 @@ class SpeedPunkLib(object):
 		
 	def savePreferences(self):
 		for key in self.preferenceKeys:
-			if self.preferences.has_key(key):
+			if key in self.preferences:
 				NSUserDefaults.standardUserDefaults().setObject_forKey_(self.preferences[key], "de.yanone.speedPunk.%s" % (key))
 	
 	def Open(self):
@@ -485,7 +485,7 @@ class SpeedPunkLib(object):
 		self.maxhistogram = 0
 		for v in self.values:
 			key = int(Interpolate(1, width, (v - self.vmin) / (self.vmax - self.vmin))) - 1
-			if not self.histogram.has_key(key):
+			if key not in self.histogram:
 				self.histogram[key] = 0
 			self.histogram[key] += 1
 			if self.histogram[key] > self.maxhistogram:
@@ -506,8 +506,8 @@ class SpeedPunkLib(object):
 		NSColor.colorWithWhite_alpha_(0, .8).set()
 		
 		for x in range(width):
-			if self.histogram.has_key(x):
 				path = NSBezierPath.bezierPath()
+			if x in self.histogram:
 				path.moveToPoint_((x + .5 + originX, originY))
 				y = (self.histogram[x] / float(self.maxhistogram)) * height
 
