@@ -248,7 +248,7 @@ if environment == 'RoboFont':
 
 elif environment == 'GlyphsApp':
 	import GlyphsApp
-	from GlyphsApp import Glyphs, Message
+	from GlyphsApp import Glyphs, Message, CURVE
 
 
 
@@ -346,13 +346,15 @@ class SpeedPunkLib(object):
 		# Glyphs
 		if environment == 'GlyphsApp':
 			for p in g.paths:
-				for s in p.segments:
-					if len(s) == 4:
-						p1 = s[0].pointValue()
-						p2 = s[1].pointValue()
-						p3 = s[2].pointValue()
-						p4 = s[3].pointValue()
+				idx = 0
+				for n in p.nodes:
+					if n.type == CURVE:
+						p1 = p.nodes[idx - 3].position
+						p2 = p.nodes[idx - 2].position
+						p3 = p.nodes[idx - 1].position
+						p4 = n.position
 						newSegmentPositions.append((p1, p2, p3, p4))
+					idx += 1
 		# RoboFont
 		elif environment == 'RoboFont':
 			for c in g:
@@ -409,8 +411,8 @@ class SpeedPunkLib(object):
 		numberofcurvesegments = 0
 		if environment == 'GlyphsApp':
 			for p in g.paths:
-				for s in p.segments:
-					if len(s) == 4:
+				for n in p.nodes:
+					if n.type == CURVE:
 						numberofcurvesegments += 1
 		elif environment == 'RoboFont':
 			for c in g:
