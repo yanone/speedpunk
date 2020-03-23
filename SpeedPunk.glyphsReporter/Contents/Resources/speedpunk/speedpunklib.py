@@ -648,7 +648,7 @@ class Segment:
 		self.lowestvalue = None
 		
 		### Calc
-		steps = max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1)
+		steps = int(max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1))
 		
 		self.curvatureSets = []
 		

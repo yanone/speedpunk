@@ -41,6 +41,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 	settingsView = objc.IBOutlet()
 	gainSlider = objc.IBOutlet()
 	
+	@objc.python_method
 	def settings(self):
 
 		self.keyboardShortcut = 'x'
@@ -70,6 +71,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		self.speedpunklib.loadPreferences()
 		Glyphs.redraw()
 	
+	@objc.python_method
 	def background(self, layer):
 		self.speedpunklib.UpdateGlyph(layer)
 
