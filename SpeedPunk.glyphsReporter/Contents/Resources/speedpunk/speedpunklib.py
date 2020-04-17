@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 ##########################################################################################
 #
@@ -25,12 +26,12 @@ from AppKit import NSUserDefaults, NSImage, NSColor, NSBezierPath, NSPoint, NSGr
 
 
 def ListPairs(list, num_pairs):
-	u"""\
+	"""
 	Return 'num_pairs' amount of elements of list stacked together as lists.
 	Example:
 	list = ['a', 'b', 'c', 'd', 'e']
 	for one, two, three in ListPairs(list, 3):
-		print one, two, three
+		print(one, two, three)
 	a b c
 	b c d
 	c d e
@@ -48,7 +49,7 @@ def ListPairs(list, num_pairs):
 	return returnlist
 
 def InterpolateHexColorList(colors, p):
-	u"""\
+	"""
 	Interpolate between list of hex RRGGBB values at float position p (0-1)
 	Returns float list (R, G, B)
 	"""
@@ -70,7 +71,7 @@ def InterpolateHexColorList(colors, p):
 			if  before < p < after:
 				v = (p - before) / (after - before)
 				
-#				print "interpolate between", before, after, p, v
+#				print("interpolate between", before, after, p, v)
 
 				R = Interpolate(colors[i][0], colors[i + 1][0], v)
 				G = Interpolate(colors[i][1], colors[i + 1][1], v)
@@ -82,7 +83,7 @@ def InterpolateHexColorList(colors, p):
 				return colors[i + 1]
 
 def Interpolate(a, b, p, limit = False):
-	u"""\
+	"""
 	Interpolate between values a and b at float position p (0-1)
 	Limit: No extrapolation
 	"""
@@ -95,7 +96,7 @@ def Interpolate(a, b, p, limit = False):
 		return i
 
 def Execute(command):
-	u"""\
+	"""
 	Execute system command, return output.
 	"""
 
@@ -120,13 +121,13 @@ def Execute(command):
 		return response
 
 def Stamina():
-	u"""\
+	"""
 	Calculate system power as integer using by mulitplying number of active CPUs with clock speed.
 	"""
 	return int(Execute('sysctl hw.activecpu').split(' ')[-1]) * int(Execute('sysctl hw.cpufrequency').split(' ')[-1])
 
 def Environment():
-	u"""\
+	"""
 	Return the environment, from which this script is being called.
 	Currently supported: FontLab, GlyphsApp, NodeBox, Python
 	"""
@@ -157,7 +158,7 @@ def Environment():
 
 
 def solveCubicBezier(p1, p2, p3, p4):
-	u"""\
+	"""
 	Solve cubic Bezier equation and 1st and 2nd derivative.
 	"""
 	a = NSPoint()
@@ -173,7 +174,7 @@ def solveCubicBezier(p1, p2, p3, p4):
 	return a, b, c, d
 
 def solveCubicBezierCurvature(a, b, c, d, t):
-	u"""\
+	"""
 	Calc curvature using cubic Bezier equation and 1st and 2nd derivative.
 	Returns position of on-curve point p1234, and vector of 1st and 2nd derivative.
 	"""
