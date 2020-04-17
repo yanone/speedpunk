@@ -1,4 +1,5 @@
 # encoding: utf-8
+from __future__ import division, print_function, unicode_literals
 
 ##########################################################################################
 #
@@ -87,6 +88,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 			self.speedpunklib.drawHistogram(histOriginX, histOriginY, self.histWidth, self.histHeight)
 			NSGraphicsContext.currentContext().restoreGraphicsState()
 	
+	@objc.python_method
 	def __file__(self):
 		"""Please leave this method unchanged"""
 		return __file__

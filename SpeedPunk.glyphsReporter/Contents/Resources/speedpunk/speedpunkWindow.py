@@ -1,3 +1,4 @@
+from __future__ import division, print_function, unicode_literals
 from vanilla import FloatingWindow, RadioGroup, TextBox, Slider, CheckBox, ImageView
 
 class SpeedPunkPrefWindow(object):
