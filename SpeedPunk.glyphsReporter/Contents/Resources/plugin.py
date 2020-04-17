@@ -3,7 +3,7 @@ from __future__ import division, print_function, unicode_literals
 
 ##########################################################################################
 #
-#	SpeedPunk 1.12
+#	Speed Punk 1.20
 #	Visualisation tool of outline curvature for font editors.
 #	
 #	Commercial license. Not to be given to other people.
@@ -68,13 +68,28 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.useFader', 0, None)
 		default.addObserver_forKeyPath_options_context_(self, 'values.de.yanone.speedPunk.fader', 0, None)
 	
+	@objc.python_method
+	def conditionsAreMetForDrawing(self):
+			"""
+			Don't activate if text or pan (hand) tool are active.
+			"""
+			currentController = self.controller.view().window().windowController()
+			if currentController:
+				tool = currentController.toolDrawDelegate()
+				textToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolText") )
+				handToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolHand") )
+				if not textToolIsActive and not handToolIsActive: 
+					return True
+			return False
+	
 	def observeValueForKeyPath_ofObject_change_context_(self, keypath, observed, changed, context):
 		self.speedpunklib.loadPreferences()
 		Glyphs.redraw()
 	
 	@objc.python_method
 	def background(self, layer):
-		self.speedpunklib.UpdateGlyph(layer)
+		if self.conditionsAreMetForDrawing():
+			self.speedpunklib.UpdateGlyph(layer)
 
 	def drawForegroundWithOptions_(self, options):
 		if self.speedpunklib.getPreference('useFader'):

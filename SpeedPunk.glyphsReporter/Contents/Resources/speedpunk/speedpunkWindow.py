@@ -10,11 +10,33 @@ class SpeedPunkPrefWindow(object):
 								autosaveName = 'de_yanone_speedPunk_%s.prefWindow' % (environment),
 								)
 		self.w.illustrationPositionRadioGroup = RadioGroup((10, 10, -10, 40),
-								["Outside of glyph", "Outer side of curve"],
+								(
+									Glyphs.localize({
+										'en': 'Outside of glyph',
+										'de': 'Außen an Form',
+										'fr': 'Éxterieur de la forme',
+										'es': 'Exterior del glifo',
+										'pt': 'Fora do glifo',
+									}),
+									Glyphs.localize({
+										'en': 'Outer side of curve',
+										'de': 'Außen am Pfad',
+										'fr': 'Éxterieur de la courbe',
+										'es': 'Exterior del trazo',
+										'pt': 'Fora da curva',
+									}),
+								),
 								callback=self.radioGroupCallback,
 								sizeStyle = "small")
 
-		self.w.curveGainTextBox = TextBox((10, 60, -10, 17), "Gain",
+		self.w.curveGainTextBox = TextBox((10, 60, -10, 17),
+							Glyphs.localize({
+								'en': 'Gain',
+								'de': 'Stärke',
+								'fr': 'Volume',
+								'es': 'Volumen',
+								'pt': 'Volume',
+							}),
 							sizeStyle = "mini")
 
 		self.w.curveGainSlider = Slider((10, 70, -10, 25),
@@ -27,7 +49,14 @@ class SpeedPunkPrefWindow(object):
 		
 		self.w.illustrationPositionRadioGroup.set(self.parent.getPreference('illustrationPositionIndex'))
 
-		self.w.faderCheckBox = CheckBox((10, 100, -10, 17), "Fader",
+		self.w.faderCheckBox = CheckBox((10, 100, -10, 17),
+							Glyphs.localize({
+								'en': 'Fade',
+								'de': 'Ausblenden',
+								'fr': 'Opacité',
+								'es': 'Opacidad',
+								'pt': 'Opacidade',
+							}),
 							sizeStyle = "small",
 							callback = self.faderCheckBoxCallback)
 
@@ -62,4 +91,3 @@ class SpeedPunkPrefWindow(object):
 		else:
 			self.w.faderCheckBox.setPosSize(((10, 100, -10, 17)))
 			self.w.resize(150, 130, animate=True)
-		

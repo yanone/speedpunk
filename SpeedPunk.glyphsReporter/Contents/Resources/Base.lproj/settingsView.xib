@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,7 +18,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" preferredMaxLayoutWidth="141" translatesAutoresizingMaskIntoConstraints="NO" id="iM5-u4-PlU">
-                    <rect key="frame" x="20" y="97" width="145" height="14"/>
+                    <rect key="frame" x="18" y="97" width="195" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed Punk v1.13 Settings" id="MpF-Ww-0Vd">
                         <font key="font" metaFont="menu" size="11"/>
@@ -52,7 +52,7 @@
                     </connections>
                 </matrix>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-1s-alb">
-                    <rect key="frame" x="18" y="33" width="28" height="14"/>
+                    <rect key="frame" x="18" y="33" width="135" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Gain" id="PWU-f4-6sZ">
                         <font key="font" metaFont="menu" size="11"/>
@@ -61,7 +61,7 @@
                     </textFieldCell>
                 </textField>
                 <slider verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="B9m-Gc-23C">
-                    <rect key="frame" x="20" y="9" width="131" height="18"/>
+                    <rect key="frame" x="20" y="11" width="131" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="30" doubleValue="30" tickMarkPosition="below" numberOfTickMarks="5" sliderType="linear" id="CB4-lo-uT9"/>
                     <connections>
@@ -69,9 +69,9 @@
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vvw-YA-kdr">
-                    <rect key="frame" x="156" y="32" width="257" height="18"/>
+                    <rect key="frame" x="156" y="32" width="136" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="check" title="Show Historgram" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="MA5-dI-rlC">
+                    <buttonCell key="cell" type="check" title="Fade" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="MA5-dI-rlC">
                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                         <font key="font" metaFont="menu" size="11"/>
                     </buttonCell>
@@ -88,9 +88,9 @@
                     </connections>
                 </slider>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="sl7-CF-Kzt">
-                    <rect key="frame" x="213" y="94" width="63" height="17"/>
+                    <rect key="frame" x="219" y="94" width="71" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <buttonCell key="cell" type="inline" title="Github →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tya-T9-UP3">
+                    <buttonCell key="cell" type="inline" title="GitHub →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tya-T9-UP3">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="smallSystemBold"/>
                     </buttonCell>
@@ -99,7 +99,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LPy-II-gd7">
-                    <rect key="frame" x="209" y="76" width="71" height="17"/>
+                    <rect key="frame" x="219" y="76" width="71" height="17"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="inline" title="Twitter →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="1Jp-Ac-jPD">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
