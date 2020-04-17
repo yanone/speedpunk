@@ -300,6 +300,8 @@ class SpeedPunkLib(object):
 				'fr': 'Merci d’avoir choisi Speed Punk. Retrouvez-le dans le menu Affichage sous ‘Afficher Speed Punk’ ou avec le raccourci Cmd+Shift+X. Les préférences se trouvent dans le menu contextuel (clic-droit).\n\nProfitez-en et suivez-moi sur Twitter: @yanone.',
 				'es': '¡Gracias por instalar Speed Punk! Lo encontrarás en el menú «Vista > Mostrar Speed Punk» o con el atajo de teclado Cmd+Shift+X. Botón derecho para ver las preferencias. ¡Disfrútalo! Puedes seguirme en Twitter: @yanone.',
 				'pt': 'Obrigado por instalar o Speed Punk! Você o encontrará no menu «Visualizar > Exibir Speed Punk» ou com o atalho de teclado Cmd+Shift+X. Clique com o botão direito do mouse para ver as preferências. Aproveite! Você pode me seguir no Twitter: @yanone.',
+				# 'jp': 'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plug-in settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
+				'ko': '“Speed Punk”를 사용해주셔서 감사합니다. 상단메뉴의 ’보기 > Speed Punk 보기’ 클릭 또는 단축키 Cmd + Shift + X로 실행할 수 있습니다. 플러그인 설정은 마우스 오른쪽 > 컨텍스트 메뉴에 있습니다.\n\n트위터에서 @yanone 를 팔로우 해주시기 바랍니다.',
 			}),
 			title = Glyphs.localize({
 				'en': 'Welcome to Speed Punk %s' % VERSION,
@@ -307,6 +309,8 @@ class SpeedPunkLib(object):
 				'fr': 'Bienvenu·e·s chez Speed Punk %s' % VERSION,
 				'es': 'Bienvenido a Speed Punk %s' % VERSION,
 				'pt': 'Bem-vindo ao Speed Punk %s' % VERSION,
+				# 'jp': 'Welcome to Speed Punk %s' % VERSION,
+				'ko': '“Speed Punk %s”를 사용해주셔서 감사합니다.' % VERSION,
 			}),
 			)
 			
