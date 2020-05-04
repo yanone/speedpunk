@@ -3,15 +3,10 @@ from __future__ import division, print_function, unicode_literals
 
 ##########################################################################################
 #
-#	Speed Punk 1.20
+#	Speed Punk
 #	Visualisation tool of outline curvature for font editors.
 #	
-#	Commercial license. Not to be given to other people.
-#	
-#	Copyright 2012 by Yanone.
-#	Web: http://yanone.de
-#	Twitter: @yanone
-#	Email: post@yanone.de
+#	Distributed under Apache 2.0 license
 #
 ##########################################################################################
 
