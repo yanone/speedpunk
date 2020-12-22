@@ -12,7 +12,7 @@ from __future__ import division, print_function, unicode_literals
 
 import math, time, traceback
 
-from AppKit import NSUserDefaults, NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRect
+from AppKit import NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRect
 
 
 
@@ -320,14 +320,14 @@ class SpeedPunkLib(object):
 
 	def loadPreferences(self):
 		for key in self.preferenceKeys:
-			value = NSUserDefaults.standardUserDefaults().objectForKey_("de.yanone.speedPunk.%s" % (key))
+			value = Glyphs.defaults["de.yanone.speedPunk.%s" % key]
 			self.preferences[key] = value
 			setattr(self, key, value)
 		
 	def savePreferences(self):
 		for key in self.preferenceKeys:
 			if key in self.preferences:
-				NSUserDefaults.standardUserDefaults().setObject_forKey_(self.preferences[key], "de.yanone.speedPunk.%s" % (key))
+				Glyphs.defaults["de.yanone.speedPunk.%s" % key] = self.preferences[key]
 	
 	def Open(self):
 		self.prefwindow.w.show()
