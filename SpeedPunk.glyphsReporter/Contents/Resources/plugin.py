@@ -12,6 +12,7 @@ from __future__ import division, print_function, unicode_literals
 
 import objc, webbrowser
 from GlyphsApp import *
+from GlyphsApp import NSStr
 from GlyphsApp.plugins import *
 from Foundation import NSString
 from AppKit import NSGraphicsContext, NSUserDefaultsController
@@ -59,10 +60,10 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		self.histHeight = 20
 		
 		default = NSUserDefaultsController.sharedUserDefaultsController()
-		default.addObserver_forKeyPath_options_context_(self, NSString('values.de.yanone.speedPunk.illustrationPositionIndex'), 0, None)
-		default.addObserver_forKeyPath_options_context_(self, NSString('values.de.yanone.speedPunk.curveGain'), 0, None)
-		default.addObserver_forKeyPath_options_context_(self, NSString('values.de.yanone.speedPunk.useFader'), 0, None)
-		default.addObserver_forKeyPath_options_context_(self, NSString('values.de.yanone.speedPunk.fader'), 0, None)
+		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.illustrationPositionIndex'), 0, None)
+		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.curveGain'), 0, None)
+		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.useFader'), 0, None)
+		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.fader'), 0, None)
 	
 	@objc.python_method
 	def conditionsAreMetForDrawing(self):
