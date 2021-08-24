@@ -247,7 +247,12 @@ elif environment == 'GlyphsApp':
 	from GlyphsApp import Glyphs, Message, CURVE
 
 
-
+fallbackPreferences = dict(
+		illustrationPositionIndex=1,
+		curveGain=Interpolate(curveGain[0], curveGain[1], .2),
+		fader=1.0,
+		useFader=False
+	)
 
 class SpeedPunkLib(object):
 	def __init__(self):
@@ -267,17 +272,17 @@ class SpeedPunkLib(object):
 		self.curves = 'cubic'
 		
 		self.loadPreferences()
-
+		
 		# Preferences
 		justInstalled = False
 		if not self.getPreference('illustrationPositionIndex'):
-			self.setPreference('illustrationPositionIndex', 1)
+			self.setPreference('illustrationPositionIndex', fallbackPreferences['illustrationPositionIndex'])
 			justInstalled = True
 		if not self.getPreference('curveGain'):
-			self.setPreference('curveGain', Interpolate(curveGain[0], curveGain[1], .2))
+			self.setPreference('curveGain', fallbackPreferences['curveGain'])
 			justInstalled = True
-		self.setPreference('fader', 1.0)
-		self.setPreference('useFader', False)
+		self.setPreference('fader', fallbackPreferences['fader'])
+		self.setPreference('useFader', fallbackPreferences['useFader'])
 		self.savePreferences()
 		'''
 		# UI
@@ -585,6 +590,11 @@ class Curvature:
 
 	def _DrawCurvatureIllustration(self):
 		# Recalc illustration
+		if self.segment.speedpunklib.illustrationPositionIndex is None:
+			self.segment.speedpunklib.illustrationPositionIndex = fallbackPreferences['illustrationPositionIndex']
+		if self.segment.speedpunklib.curveGain is None:
+			self.segment.speedpunklib.curveGain = fallbackPreferences['curveGain']
+
 		prefIllustrationPositionIndex = int(self.segment.speedpunklib.illustrationPositionIndex)
 		prefCurveGain = self.segment.speedpunklib.curveGain
 		
