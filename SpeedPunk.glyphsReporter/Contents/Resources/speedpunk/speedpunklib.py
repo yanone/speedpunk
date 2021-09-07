@@ -19,30 +19,6 @@ from AppKit import NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRe
 ##########################################################################################
 ##########################################################################################
 
-
-def ListPairs(list, num_pairs):
-	"""
-	Return 'num_pairs' amount of elements of list stacked together as lists.
-	Example:
-	list = ['a', 'b', 'c', 'd', 'e']
-	for one, two, three in ListPairs(list, 3):
-		print(one, two, three)
-	a b c
-	b c d
-	c d e
-	"""
-	returnlist = []
-	
-	for i in range(len(list) - num_pairs + 1):
-		
-		singlereturnlist = []
-		for j in range(num_pairs):
-			singlereturnlist.append(list[i + j])
-		
-		returnlist.extend([singlereturnlist])
-	
-	return returnlist
-
 def InterpolateHexColorList(colors, p):
 	"""
 	Interpolate between list of hex RRGGBB values at float position p (0-1)
@@ -646,21 +622,20 @@ class Segment:
 		### Calc
 		steps = int(max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1))
 		
-		self.curvatureSets = []
-		
-		sets = []
+		curvatureSets = []
 		a, b, c, d = solveCubicBezier(p1, p2, p3, p4)
+		set2 = None
 		for i in range(steps + 1):
 			t = i / float(steps)
-			#r, r1, r2 = solveCubicBezier(p1, p2, p3, p4, t)
 			try:
-				result = solveCubicBezierCurvature(a, b, c, d, t)
-				sets.append(result)
+				set1 = solveCubicBezierCurvature(a, b, c, d, t)
+				if set2 is not None:
+					curvatureSets.append(Curvature(self, set1, set2))
+				set2 = set1
 			except:
 				pass
-		for set1, set2 in ListPairs(sets, 2):
-			self.curvatureSets.append(Curvature(self, set1, set2))
-			
+
+		self.curvatureSets = curvatureSets
 	
 	def DrawSegment(self):
 		drawcount = 0
