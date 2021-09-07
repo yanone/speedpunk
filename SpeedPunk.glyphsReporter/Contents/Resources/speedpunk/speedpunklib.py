@@ -250,7 +250,8 @@ class SpeedPunkLib(object):
 		self.preferenceKeys = ('illustrationPositionIndex', 'curveGain', 'useFader', 'fader')
 		Glyphs.registerDefaults(defaultPreferences)
 		justInstalled = Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] is None
-		Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] = 1
+		if justInstalled:
+			Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] = 1
 		self.loadPreferences()
 
 		'''
