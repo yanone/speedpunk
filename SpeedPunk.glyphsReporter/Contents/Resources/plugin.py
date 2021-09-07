@@ -41,20 +41,16 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 	
 	@objc.python_method
 	def settings(self):
-
 		self.keyboardShortcut = 'x'
 
 		curveGain = speedpunk.speedpunklib.curveGain
-		Glyphs.registerDefault('de.yanone.speedPunk.curveGain', speedpunk.speedpunklib.Interpolate(curveGain[0], curveGain[1], .2))
-		Glyphs.registerDefault('de_yanone.speedPunk.fader', 1.0)
-		
 		self.loadNib('settingsView', __file__)
 		self.menuName = 'Speed Punk'
 		self.speedpunklib = speedpunk.speedpunklib.SpeedPunkLib()
 		self.speedpunklib.tool = self
 		self.generalContextMenus = [{'name': 'Speed Punk', 'view': self.settingsView}]
-		self.gainSlider.setMinValue_(speedpunk.speedpunklib.curveGain[0])
-		self.gainSlider.setMaxValue_(speedpunk.speedpunklib.curveGain[1])
+		self.gainSlider.setMinValue_(curveGain[0])
+		self.gainSlider.setMaxValue_(curveGain[1])
 		
 		self.histWidth = 200
 		self.histHeight = 20
@@ -89,7 +85,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 			self.speedpunklib.UpdateGlyph(layer)
 
 	def drawForegroundWithOptions_(self, options):
-		if self.speedpunklib.getPreference('useFader'):
+		if self.speedpunklib.useFader:
 			visibleRect = self.controller.viewPort
 			histOriginX = NSMinX(visibleRect) + 10
 			histOriginY = NSMaxY(visibleRect) - 10 - self.histHeight

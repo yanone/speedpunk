@@ -247,12 +247,13 @@ elif environment == 'GlyphsApp':
 	from GlyphsApp import Glyphs, Message, CURVE
 
 
-fallbackPreferences = dict(
-		illustrationPositionIndex=1,
-		curveGain=Interpolate(curveGain[0], curveGain[1], .2),
-		fader=1.0,
-		useFader=False
-	)
+defaultsPrefix = "de.yanone.speedPunk."
+defaultPreferences = {
+	# defaultsPrefix+"illustrationPositionIndex":1,
+	defaultsPrefix+"curveGain":Interpolate(curveGain[0], curveGain[1], .2),
+	defaultsPrefix+"fader":1.0,
+	defaultsPrefix+"useFader":False
+}
 
 class SpeedPunkLib(object):
 	def __init__(self):
@@ -266,24 +267,16 @@ class SpeedPunkLib(object):
 		self.glyphchanged = False
 		self.numberofcurvesegments = 0
 		self.glyphstring = None
-		self.preferences = {}
-		self.preferenceKeys = ('illustrationPositionIndex', 'curveGain', 'useFader', 'fader')
 		self.unitsperem = 1000
 		self.curves = 'cubic'
 		
-		self.loadPreferences()
-		
 		# Preferences
-		justInstalled = False
-		if not self.getPreference('illustrationPositionIndex'):
-			self.setPreference('illustrationPositionIndex', fallbackPreferences['illustrationPositionIndex'])
-			justInstalled = True
-		if not self.getPreference('curveGain'):
-			self.setPreference('curveGain', fallbackPreferences['curveGain'])
-			justInstalled = True
-		self.setPreference('fader', fallbackPreferences['fader'])
-		self.setPreference('useFader', fallbackPreferences['useFader'])
-		self.savePreferences()
+		self.preferenceKeys = ('illustrationPositionIndex', 'curveGain', 'useFader', 'fader')
+		Glyphs.registerDefaults(defaultPreferences)
+		justInstalled = Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] is None
+		Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] = 1
+		self.loadPreferences()
+
 		'''
 		# UI
 		
@@ -316,24 +309,14 @@ class SpeedPunkLib(object):
 			
 		return
 
-	def getPreference(self, key):
-		if key in self.preferences:
-			return self.preferences[key]
-		
 	def setPreference(self, key, value):
-		self.preferences[key] = value
+		Glyphs.defaults[defaultsPrefix + key] = value
 
 	def loadPreferences(self):
 		for key in self.preferenceKeys:
-			value = Glyphs.defaults["de.yanone.speedPunk.%s" % key]
-			self.preferences[key] = value
+			value = Glyphs.defaults[defaultsPrefix + key]
 			setattr(self, key, value)
-		
-	def savePreferences(self):
-		for key in self.preferenceKeys:
-			if key in self.preferences:
-				Glyphs.defaults["de.yanone.speedPunk.%s" % key] = self.preferences[key]
-	
+
 	def Open(self):
 		self.prefwindow.w.show()
 		self.RefreshView()
@@ -590,11 +573,6 @@ class Curvature:
 
 	def _DrawCurvatureIllustration(self):
 		# Recalc illustration
-		if self.segment.speedpunklib.illustrationPositionIndex is None:
-			self.segment.speedpunklib.illustrationPositionIndex = fallbackPreferences['illustrationPositionIndex']
-		if self.segment.speedpunklib.curveGain is None:
-			self.segment.speedpunklib.curveGain = fallbackPreferences['curveGain']
-
 		prefIllustrationPositionIndex = int(self.segment.speedpunklib.illustrationPositionIndex)
 		prefCurveGain = self.segment.speedpunklib.curveGain
 		
