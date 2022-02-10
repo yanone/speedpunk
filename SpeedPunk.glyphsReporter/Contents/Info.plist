@@ -13,9 +13,9 @@
 	<key>CFBundleName</key>
 	<string>SpeedPunk</string>
 	<key>CFBundleVersion</key>
-	<string>14</string>
+	<string>15</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.2.1</string>
+	<string>1.2.2</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright 2018 by Yanone</string>
 	<key>NSPrincipalClass</key>

@@ -262,7 +262,7 @@ class SpeedPunkLib(object):
 		'''
 
 		## Welcome
-		if justInstalled and environment == 'GlyphsApp':
+		if justInstalled and environment == 'GlyphsApp' and False: # remove ‘and False’ if you want to reactivate the dialog
 			Message(
 			message = Glyphs.localize({
 				'en': 'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plug-in settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
