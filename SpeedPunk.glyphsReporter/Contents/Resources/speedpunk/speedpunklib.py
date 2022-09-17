@@ -503,13 +503,15 @@ class Curvature:
 		self.illustrationPosition = None
 		self.fader = None
 		self.useFader = None
+		self.color = None
 		
 	def DrawCurvature(self):
 		
 		# Color
-		self._DrawCurvatureColor()
+		if not self._DrawCurvatureColor():
+			return # can happen with straight segments
 		self._DrawCurvatureIllustration()
-		return self._DrawCurvaturePaths()
+		self._DrawCurvaturePaths()
 	
 	def _DrawCurvatureColor(self):
 		prefFader = self.segment.speedpunklib.fader
@@ -520,9 +522,12 @@ class Curvature:
 			self.useFader = prefUseFader
 			
 			# Color
-			p = (self.Value() - self.segment.speedpunklib.vmin) / (self.segment.speedpunklib.vmax - self.segment.speedpunklib.vmin)
-			R, G, B = InterpolateHexColorList(colors[self.segment.speedpunklib.curves], p)
+			deltaV = self.segment.speedpunklib.vmax - self.segment.speedpunklib.vmin
 
+			if abs(deltaV < 0.0000001):
+				return False
+			p = (self.Value() - self.segment.speedpunklib.vmin) / deltaV
+			R, G, B = InterpolateHexColorList(colors[self.segment.speedpunklib.curves], p)
 
 			# Fader
 			faderMin = .2
@@ -547,6 +552,7 @@ class Curvature:
 				
 	
 			self.color = NSColor.colorWithCalibratedRed_green_blue_alpha_(R, G, B, A)
+		return True
 
 	def _DrawCurvatureIllustration(self):
 		# Recalc illustration
@@ -592,6 +598,8 @@ class Curvature:
 			self.path.closePath()
 	
 	def _DrawCurvaturePaths(self):
+		if self.color is None:
+			return
 		self.color.set()
 #		self.path
 
