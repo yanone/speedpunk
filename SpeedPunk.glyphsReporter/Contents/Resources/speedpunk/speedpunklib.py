@@ -549,8 +549,7 @@ class Curvature:
 				A = Interpolate(faderMin, faderMax, v)
 			else:
 				A = faderMax
-				
-	
+
 			self.color = NSColor.colorWithCalibratedRed_green_blue_alpha_(R, G, B, A)
 		return True
 
@@ -601,16 +600,8 @@ class Curvature:
 		if self.color is None:
 			return
 		self.color.set()
-#		self.path
 
 		self.path.fill()
-#		self.path.setLineWidth_(0.2)
-#		self.path.stroke()
-
-		return 1
-
-#		else:
-#			return 0
 	
 	def Value(self):
 		return abs(self.set1[3] * drawfactor) + abs(self.set2[3] * drawfactor) / 2.0
@@ -647,10 +638,8 @@ class Segment:
 		self.curvatureSets = curvatureSets
 	
 	def DrawSegment(self):
-		drawcount = 0
 		for set in self.curvatureSets:
-			drawcount += set.DrawCurvature()
-		return drawcount
+			set.DrawCurvature()
 
 	def Values(self):
 		values = []
