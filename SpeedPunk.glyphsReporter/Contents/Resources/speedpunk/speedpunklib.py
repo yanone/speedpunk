@@ -603,7 +603,7 @@ class Curvature:
 		self.path.fill()
 	
 	def Value(self):
-		return abs(self.set1[3] * drawfactor) + abs(self.set2[3] * drawfactor) / 2.0
+		return (abs(self.set1[3] * drawfactor) + abs(self.set2[3] * drawfactor)) / 2.0
 
 class Segment:
 	def __init__(self, speedpunklib, p1, p2, p3, p4):
