@@ -74,15 +74,11 @@ def Execute(command):
 	import sys, os, platform
 
 	if sys.version.startswith("2.3") or platform.system() == "Windows":
-
 		p = os.popen(command, "r")
 		response = p.read()
 		p.close()
 		return response
-
-
 	else:
-
 		import subprocess
 
 		process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True, close_fds=True)
@@ -93,7 +89,7 @@ def Execute(command):
 
 def Stamina():
 	"""
-	Calculate system power as integer using by mulitplying number of active CPUs with clock speed.
+	Calculate system power as integer using by multiplying number of active CPUs with clock speed.
 	"""
 	return int(Execute('sysctl hw.activecpu').split(' ')[-1]) * int(Execute('sysctl hw.cpufrequency').split(' ')[-1])
 
@@ -150,20 +146,20 @@ def solveCubicBezierCurvature(a, b, c, d, t):
 	Returns position of on-curve point p1234, and vector of 1st and 2nd derivative.
 	"""
 	r = NSPoint()
-	t3 = t**3
-	t2 = t**2
-	r.x = a.x*t3 + b.x*t2 + c.x*t + d.x
-	r.y = a.y*t3 + b.y*t2 + c.y*t + d.y
+	t3 = t ** 3
+	t2 = t ** 2
+	r.x = a.x * t3 + b.x * t2 + c.x * t + d.x
+	r.y = a.y * t3 + b.y * t2 + c.y * t + d.y
 	
 	r1 = NSPoint()
-	r1.x = 3*a.x*t2 + 2*b.x*t + c.x
-	r1.y = 3*a.y*t2 + 2*b.y*t + c.y
+	r1.x = 3 * a.x * t2 + 2 * b.x * t + c.x
+	r1.y = 3 * a.y * t2 + 2 * b.y * t + c.y
 	
 	r2 = NSPoint()
-	r2.x = 6*a.x*t + 2*b.x
-	r2.y = 6*a.y*t + 2*b.y
+	r2.x = 6 * a.x * t + 2 * b.x
+	r2.y = 6 * a.y * t + 2 * b.y
 	
-	return (r, r1, r2, (r1.x * r2.y - r1.y * r2.x) / (r1.x**2 + r1.y**2)**1.5)
+	return (r, r1, r2, (r1.x * r2.y - r1.y * r2.x) / (r1.x ** 2 + r1.y ** 2) ** 1.5)
 
 
 ##########################################################################################
@@ -563,8 +559,8 @@ class Curvature:
 			self.curveGain = prefCurveGain
 			self.illustrationPosition = prefIllustrationPositionIndex
 			
-			k1 = self.set1[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem**2
-			k2 = self.set2[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem**2
+			k1 = self.set1[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem ** 2
+			k2 = self.set2[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem ** 2
 
 			if self.illustrationPosition == outsideOfGlyph:
 				k1 = abs(k1)
@@ -582,8 +578,8 @@ class Curvature:
 			S21 = self.set2[1]
 			self.oncurve1 = S10
 			self.oncurve2 = S20
-			S21abs = math.sqrt(S21.x**2 + S21.y**2)
-			S11abs = math.sqrt(S11.x**2 + S11.y**2)
+			S21abs = math.sqrt(S21.x ** 2 + S21.y ** 2)
+			S11abs = math.sqrt(S11.x ** 2 + S11.y ** 2)
 			self.outerspace2 = (S20.x + (S21.y / S21abs * k2), S20.y - (S21.x / S21abs * k2))
 			self.outerspace1 = (S10.x + (S11.y / S11abs * k1), S10.y - (S11.x / S11abs * k1))
 		
