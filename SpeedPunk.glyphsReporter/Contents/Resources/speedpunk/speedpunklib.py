@@ -438,9 +438,9 @@ class SpeedPunkLib(object):
 			segment.DrawSegment()
 		
 	def drawGradientImage(self):
-		
-		width = int(self.prefwindow.w.gradientImage.getNSImageView().frame().size[0])
-		height = int(self.prefwindow.w.gradientImage.getNSImageView().frame().size[1])
+		frame = self.prefwindow.w.gradientImage.getNSImageView().frame()
+		width = int(frame.size[0])
+		height = int(frame.size[1])
 		image = NSImage.alloc().initWithSize_((width, height))
 		image.lockFocus()
 		
@@ -510,20 +510,21 @@ class Curvature:
 		self._DrawCurvaturePaths()
 	
 	def _DrawCurvatureColor(self):
-		prefFader = self.segment.speedpunklib.fader
-		prefUseFader = self.segment.speedpunklib.useFader
-		if self.segment.speedpunklib.glyphchanged or self.fader != prefFader or self.useFader != prefUseFader:
+		speedpunklib = self.segment.speedpunklib
+		prefFader = speedpunklib.fader
+		prefUseFader = speedpunklib.useFader
+		if speedpunklib.glyphchanged or self.fader != prefFader or self.useFader != prefUseFader:
 			#print("__color")
 			self.fader = prefFader
 			self.useFader = prefUseFader
 			
 			# Color
-			deltaV = self.segment.speedpunklib.vmax - self.segment.speedpunklib.vmin
+			deltaV = speedpunklib.vmax - speedpunklib.vmin
 
 			if abs(deltaV < 0.0000001):
 				return False
-			p = (self.Value() - self.segment.speedpunklib.vmin) / deltaV
-			R, G, B = InterpolateHexColorList(colors[self.segment.speedpunklib.curves], p)
+			p = (self.Value() - speedpunklib.vmin) / deltaV
+			R, G, B = InterpolateHexColorList(colors[speedpunklib.curves], p)
 
 			# Fader
 			faderMin = .2
@@ -551,23 +552,25 @@ class Curvature:
 
 	def _DrawCurvatureIllustration(self):
 		# Recalc illustration
-		prefIllustrationPositionIndex = int(self.segment.speedpunklib.illustrationPositionIndex)
-		prefCurveGain = self.segment.speedpunklib.curveGain
+		speedpunklib = self.segment.speedpunklib
+		prefIllustrationPositionIndex = int(speedpunklib.illustrationPositionIndex)
+		prefCurveGain = speedpunklib.curveGain
 		
-		if self.segment.speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPosition != prefIllustrationPositionIndex:
+		if speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPosition != prefIllustrationPositionIndex:
 			#print("__illustration")
 			self.curveGain = prefCurveGain
 			self.illustrationPosition = prefIllustrationPositionIndex
 			
-			k1 = self.set1[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem ** 2
-			k2 = self.set2[3] * drawfactor * self.curveGain * self.segment.speedpunklib.unitsperem ** 2
+			factor = drawfactor * self.curveGain * speedpunklib.unitsperem ** 2
+			k1 = self.set1[3] * factor
+			k2 = self.set2[3] * factor
 
 			if self.illustrationPosition == outsideOfGlyph:
 				k1 = abs(k1)
 				k2 = abs(k2)
 			
 				# TrueType
-				if self.segment.speedpunklib.curves == 'quadratic':
+				if speedpunklib.curves == 'quadratic':
 					k1 *= -1
 					k2 *= -1
 
@@ -616,7 +619,7 @@ class Segment:
 		self.lowestvalue = None
 		
 		### Calc
-		steps = int(max(TOTALSEGMENTS / self.speedpunklib.numberofcurvesegments, MINSEGMENTS - 1))
+		steps = int(max(TOTALSEGMENTS / speedpunklib.numberofcurvesegments, MINSEGMENTS - 1))
 		
 		curvatureSets = []
 		a, b, c, d = solveCubicBezier(p1, p2, p3, p4)
