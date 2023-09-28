@@ -1,0 +1,282 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		5649E5C62AC604C600A0FF33 /* settingsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5649E5C82AC604C600A0FF33 /* settingsView.xib */; };
+		5649E5E32AC60A5D00A0FF33 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5649E5E12AC60A5D00A0FF33 /* Localizable.strings */; };
+		5649E5EB2AC61EBC00A0FF33 /* GlyphsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5649E5EA2AC61EBC00A0FF33 /* GlyphsCore.framework */; };
+		5664B2B42AC4597800A28703 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5664B2B32AC4597800A28703 /* Cocoa.framework */; };
+		5664B2B82AC4597800A28703 /* SpeedPunk.m in Sources */ = {isa = PBXBuildFile; fileRef = 5664B2B72AC4597800A28703 /* SpeedPunk.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		5649E55C2AC5E92A00A0FF33 /* common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = common.xcconfig; sourceTree = "<group>"; };
+		5649E55D2AC5E92A00A0FF33 /* debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = debug.xcconfig; sourceTree = "<group>"; };
+		5649E5C72AC604C600A0FF33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/settingsView.xib; sourceTree = "<group>"; };
+		5649E5CC2AC604E700A0FF33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5D02AC6051B00A0FF33 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5D32AC6054500A0FF33 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5D42AC6055B00A0FF33 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5D82AC605AC00A0FF33 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5DC2AC605BF00A0FF33 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5E02AC605D300A0FF33 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/settingsView.strings; sourceTree = "<group>"; };
+		5649E5E22AC60A5D00A0FF33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E42AC60A6300A0FF33 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E52AC60A6500A0FF33 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E62AC60A6600A0FF33 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E72AC60A6700A0FF33 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E82AC60A6800A0FF33 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5E92AC60A6A00A0FF33 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5649E5EA2AC61EBC00A0FF33 /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = "../../../../../../Applications/Glyphs 3.app/Contents/Frameworks/GlyphsCore.framework"; sourceTree = "<group>"; };
+		5664B2B02AC4597800A28703 /* SpeedPunk.glyphsReporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeedPunk.glyphsReporter; sourceTree = BUILT_PRODUCTS_DIR; };
+		5664B2B32AC4597800A28703 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		5664B2B62AC4597800A28703 /* SpeedPunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeedPunk.h; sourceTree = "<group>"; };
+		5664B2B72AC4597800A28703 /* SpeedPunk.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SpeedPunk.m; sourceTree = "<group>"; };
+		5664B2BB2AC4597800A28703 /* SpeedPunk-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SpeedPunk-Prefix.pch"; sourceTree = "<group>"; };
+		5664B2BD2AC4597800A28703 /* SpeedPunk-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SpeedPunk-Info.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		5664B2AD2AC4597800A28703 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5649E5EB2AC61EBC00A0FF33 /* GlyphsCore.framework in Frameworks */,
+				5664B2B42AC4597800A28703 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		5664B2A72AC4597800A28703 = {
+			isa = PBXGroup;
+			children = (
+				5664B2B52AC4597800A28703 /* SpeedPunk */,
+				5664B2B22AC4597800A28703 /* Frameworks */,
+				5664B2B12AC4597800A28703 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		5664B2B12AC4597800A28703 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				5664B2B02AC4597800A28703 /* SpeedPunk.glyphsReporter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5664B2B22AC4597800A28703 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5649E5EA2AC61EBC00A0FF33 /* GlyphsCore.framework */,
+				5664B2B32AC4597800A28703 /* Cocoa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		5664B2B52AC4597800A28703 /* SpeedPunk */ = {
+			isa = PBXGroup;
+			children = (
+				5664B2B62AC4597800A28703 /* SpeedPunk.h */,
+				5664B2B72AC4597800A28703 /* SpeedPunk.m */,
+				5664B2BB2AC4597800A28703 /* SpeedPunk-Prefix.pch */,
+				5664B2BD2AC4597800A28703 /* SpeedPunk-Info.plist */,
+				5649E55C2AC5E92A00A0FF33 /* common.xcconfig */,
+				5649E55D2AC5E92A00A0FF33 /* debug.xcconfig */,
+				5649E5E12AC60A5D00A0FF33 /* Localizable.strings */,
+				5649E5C82AC604C600A0FF33 /* settingsView.xib */,
+			);
+			path = SpeedPunk;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		5664B2AF2AC4597800A28703 /* SpeedPunk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5664B2C02AC4597800A28703 /* Build configuration list for PBXNativeTarget "SpeedPunk" */;
+			buildPhases = (
+				5664B2AC2AC4597800A28703 /* Sources */,
+				5664B2AD2AC4597800A28703 /* Frameworks */,
+				5664B2AE2AC4597800A28703 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SpeedPunk;
+			productName = SpeedPunk;
+			productReference = 5664B2B02AC4597800A28703 /* SpeedPunk.glyphsReporter */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		5664B2A82AC4597800A28703 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					5664B2AF2AC4597800A28703 = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
+				};
+			};
+			buildConfigurationList = 5664B2AB2AC4597800A28703 /* Build configuration list for PBXProject "SpeedPunk" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				de,
+				es,
+				fr,
+				pt,
+				ko,
+				ja,
+			);
+			mainGroup = 5664B2A72AC4597800A28703;
+			productRefGroup = 5664B2B12AC4597800A28703 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				5664B2AF2AC4597800A28703 /* SpeedPunk */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		5664B2AE2AC4597800A28703 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5649E5E32AC60A5D00A0FF33 /* Localizable.strings in Resources */,
+				5649E5C62AC604C600A0FF33 /* settingsView.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5664B2AC2AC4597800A28703 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5664B2B82AC4597800A28703 /* SpeedPunk.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		5649E5C82AC604C600A0FF33 /* settingsView.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5649E5C72AC604C600A0FF33 /* Base */,
+				5649E5CC2AC604E700A0FF33 /* en */,
+				5649E5D02AC6051B00A0FF33 /* de */,
+				5649E5D32AC6054500A0FF33 /* es */,
+				5649E5D42AC6055B00A0FF33 /* fr */,
+				5649E5D82AC605AC00A0FF33 /* pt */,
+				5649E5DC2AC605BF00A0FF33 /* ko */,
+				5649E5E02AC605D300A0FF33 /* ja */,
+			);
+			name = settingsView.xib;
+			sourceTree = "<group>";
+		};
+		5649E5E12AC60A5D00A0FF33 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				5649E5E22AC60A5D00A0FF33 /* en */,
+				5649E5E42AC60A6300A0FF33 /* fr */,
+				5649E5E52AC60A6500A0FF33 /* de */,
+				5649E5E62AC60A6600A0FF33 /* ja */,
+				5649E5E72AC60A6700A0FF33 /* ko */,
+				5649E5E82AC60A6800A0FF33 /* pt */,
+				5649E5E92AC60A6A00A0FF33 /* es */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		5664B2BE2AC4597800A28703 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5649E55D2AC5E92A00A0FF33 /* debug.xcconfig */;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		5664B2BF2AC4597800A28703 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5649E55C2AC5E92A00A0FF33 /* common.xcconfig */;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		5664B2C12AC4597800A28703 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5649E55D2AC5E92A00A0FF33 /* debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
+				DEPLOYMENT_LOCATION = YES;
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				DSTROOT = "$(USER_LIBRARY_DIR)/Application Support/Glyphs 3/Plugins";
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
+				INSTALL_PATH = /;
+				SKIP_INSTALL = NO;
+				WRAPPER_EXTENSION = glyphsReporter;
+			};
+			name = Debug;
+		};
+		5664B2C22AC4597800A28703 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5649E55C2AC5E92A00A0FF33 /* common.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
+				DEVELOPMENT_TEAM = X2L8375ZQ7;
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
+				INSTALL_PATH = /;
+				SKIP_INSTALL = NO;
+				WRAPPER_EXTENSION = glyphsReporter;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		5664B2AB2AC4597800A28703 /* Build configuration list for PBXProject "SpeedPunk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5664B2BE2AC4597800A28703 /* Debug */,
+				5664B2BF2AC4597800A28703 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5664B2C02AC4597800A28703 /* Build configuration list for PBXNativeTarget "SpeedPunk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5664B2C12AC4597800A28703 /* Debug */,
+				5664B2C22AC4597800A28703 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 5664B2A82AC4597800A28703 /* Project object */;
+}
