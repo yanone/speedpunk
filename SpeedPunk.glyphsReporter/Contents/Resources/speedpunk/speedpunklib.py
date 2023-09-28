@@ -579,20 +579,20 @@ class Curvature:
 			S11 = self.set1[1]
 			S20 = self.set2[0]
 			S21 = self.set2[1]
-			self.oncurve1 = S10
-			self.oncurve2 = S20
+			oncurve1 = S10
+			oncurve2 = S20
 			S21abs = math.sqrt(S21.x ** 2 + S21.y ** 2)
 			S11abs = math.sqrt(S11.x ** 2 + S11.y ** 2)
-			self.outerspace2 = (S20.x + (S21.y / S21abs * k2), S20.y - (S21.x / S21abs * k2))
-			self.outerspace1 = (S10.x + (S11.y / S11abs * k1), S10.y - (S11.x / S11abs * k1))
+			outerspace2 = (S20.x + (S21.y / S21abs * k2), S20.y - (S21.x / S21abs * k2))
+			outerspace1 = (S10.x + (S11.y / S11abs * k1), S10.y - (S11.x / S11abs * k1))
 		
 			self.path = NSBezierPath.bezierPath()
 			# OnCurve
-			self.path.moveToPoint_(self.oncurve1)
-			self.path.lineToPoint_(self.oncurve2)
+			self.path.moveToPoint_(oncurve1)
+			self.path.lineToPoint_(oncurve2)
 			# Outer points
-			self.path.lineToPoint_(self.outerspace2)
-			self.path.lineToPoint_(self.outerspace1)
+			self.path.lineToPoint_(outerspace2)
+			self.path.lineToPoint_(outerspace1)
 			self.path.closePath()
 	
 	def _DrawCurvaturePaths(self):
