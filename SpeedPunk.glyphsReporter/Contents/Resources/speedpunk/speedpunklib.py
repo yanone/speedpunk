@@ -521,7 +521,7 @@ class Curvature:
 			# Color
 			deltaV = speedpunklib.vmax - speedpunklib.vmin
 
-			if abs(deltaV < 0.0000001):
+			if abs(deltaV) < 0.0000001:
 				return False
 			p = (self.Value() - speedpunklib.vmin) / deltaV
 			R, G, B = InterpolateHexColorList(colors[speedpunklib.curves], p)
