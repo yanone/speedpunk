@@ -245,12 +245,14 @@
 			baseConfigurationReference = 5649E55C2AC5E92A00A0FF33 /* common.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
+				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = X2L8375ZQ7;
 				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
 				INSTALL_PATH = /;
 				SKIP_INSTALL = NO;
+				STRIP_INSTALLED_PRODUCT = NO;
 				WRAPPER_EXTENSION = glyphsReporter;
 			};
 			name = Release;
