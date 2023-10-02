@@ -457,6 +457,8 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 		else {
 			curvatureSets = [NSMutableArray new];
 			NSPoint prevOn = segment->elements[0];
+			steps /= segment->count - 2;
+			steps++;
 			int idx = 1;
 			for (; idx < segment->count - 2; idx++) {
 				NSPoint nextOn = GSScalePoint(GSAddPoints(segment->elements[idx], segment->elements[idx + 1]), 0.5);
