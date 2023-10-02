@@ -22,8 +22,14 @@
 extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
 extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, NSPoint *a, NSPoint *b, NSPoint *c, NSPoint *d);
 
+// #define DRAW_GRADIENTS 1
+
 // int TOTALSEGMENTS = min(int(Stamina() * .00000008), 1000)
+#if DRAW_GRADIENTS
+int TOTALSEGMENTS = 100;
+#else
 int TOTALSEGMENTS = 250;
+#endif
 
 int MINSEGMENTS = 5;
 
@@ -69,10 +75,8 @@ CGFloat solveCubicBezierCurvature(NSPoint a, NSPoint b, NSPoint c, NSPoint d, NS
 	r1->x = a.x * t3 + b.x * t2 + c.x * t + d.x;
 	r1->y = a.y * t3 + b.y * t2 + c.y * t + d.y;
 
-
 	r2->x = 3 * a.x * t2 + 2 * b.x * t + c.x;
 	r2->y = 3 * a.y * t2 + 2 * b.y * t + c.y;
-
 
 	r3->x = 6 * a.x * t + 2 * b.x;
 	r3->y = 6 * a.y * t + 2 * b.y;
@@ -184,7 +188,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 @property (nonatomic) float vmax;
 
 @property (nonatomic, strong) NSBezierPath *path;
+#if DRAW_GRADIENTS
+@property (nonatomic, strong) NSGradient *gradient;
+#else
 @property (nonatomic, strong) NSColor *color;
+#endif
 
 @end
 
@@ -212,11 +220,19 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 - (void)draw {
 	// update color
+#if DRAW_GRADIENTS
+	if (!self.gradient) {
+		if (![self updateColor]) {
+			return; // can happen with straight segments
+		}
+	}
+#else
 	if (!self.color) {
 		if (![self updateColor]) {
 			return; // can happen with straight segments
 		}
 	}
+#endif
 	if (!self.path) {
 		[self updateCurvaturePath];
 	}
@@ -234,12 +250,26 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 	if (fabs(deltaV) < 0.0000001) {
 		return NO;
 	}
+#if DRAW_GRADIENTS
+	CGFloat p = ((self.curvature1 * drawfactor) - _vmin) / deltaV;
+	CGFloat R = 1, G = 0, B = 0;
+	InterpolateHexColorList(Colors, p, &R, &G, &B);
+
+	NSColor *color1 = [NSColor colorWithCalibratedRed:R green:G blue:B alpha:Alpha];
+	p = ((self.curvature2 * drawfactor) - _vmin) / deltaV;
+	InterpolateHexColorList(Colors, p, &R, &G, &B);
+
+	NSColor *color2 = [NSColor colorWithCalibratedRed:R green:G blue:B alpha:Alpha];
+
+	self.gradient = [[NSGradient alloc] initWithStartingColor:color1 endingColor:color2];
+#else
 	CGFloat p = ([self Value] - _vmin) / deltaV;
 	CGFloat R = 1, G = 0, B = 0;
 	//InterpolateHexColorList(colors[_speedPunk.curves], p);
 	InterpolateHexColorList(Colors, p, &R, &G, &B);
 
 	self.color = [NSColor colorWithCalibratedRed:R green:G blue:B alpha:Alpha];
+#endif
 	//self.color = [NSColor colorWithCalibratedHue:R saturation:G brightness:B alpha:A];
 	return YES;
 }
@@ -285,11 +315,21 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 }
 
 - (void)drawCurvaturePaths {
+#if DRAW_GRADIENTS
+	if (!self.gradient) {
+		return;
+	}
+	[NSGraphicsContext saveGraphicsState];
+	[self.path addClip];
+	[self.gradient drawFromPoint:self.r1 toPoint:self.q1 options:NSGradientDrawsBeforeStartingLocation | NSGradientDrawsAfterEndingLocation];
+	[NSGraphicsContext restoreGraphicsState];
+#else
 	if (!self.color) {
 		return;
 	}
 	[self.color setFill];
 	[self.path fill];
+#endif
 }
 
 @end
@@ -376,7 +416,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 		for (GSPathSegment *segment in self.segments) {
 			for (SPCurvature *curvatrue in segment.objects) {
+#if DRAW_GRADIENTS
+				curvatrue.gradient = nil;
+#else
 				curvatrue.color = nil;
+#endif
 			}
 		}
 		[self.controller redraw];
