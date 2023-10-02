@@ -28,7 +28,7 @@ extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, 
 #if DRAW_GRADIENTS
 int TOTALSEGMENTS = 100;
 #else
-int TOTALSEGMENTS = 250;
+int TOTALSEGMENTS = 400;
 #endif
 
 int MINSEGMENTS = 5;
