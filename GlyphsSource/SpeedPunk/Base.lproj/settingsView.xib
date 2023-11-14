@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SPSpeedPunk">
+            <connections>
+                <outlet property="gainSlider" destination="B9m-Gc-23C" id="SfC-ca-UwZ"/>
+                <outlet property="titleField" destination="iM5-u4-PlU" id="BGn-5i-Vff"/>
+                <outlet property="view" destination="c22-O7-iKe" id="wSh-IQ-9Hz"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe">
+            <rect key="frame" x="0.0" y="0.0" width="310" height="106"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" preferredMaxLayoutWidth="141" translatesAutoresizingMaskIntoConstraints="NO" id="iM5-u4-PlU">
+                    <rect key="frame" x="18" y="88" width="214" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Speed Punk v1.13 Settings" id="MpF-Ww-0Vd">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <matrix verticalHuggingPriority="750" selectionByRect="NO" allowsEmptySelection="NO" autosizesCells="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VsB-JZ-gtC">
+                    <rect key="frame" x="20" y="44" width="210" height="36"/>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="181" height="18"/>
+                    <buttonCell key="prototype" type="radio" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="HNw-X8-gwT">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Outside of glyph" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="3ZB-4e-WGF">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="Outer side of curve" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="38c-0D-izC">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <binding destination="hDS-qr-Wu8" name="selectedIndex" keyPath="values.de.yanone.speedPunk.illustrationPositionIndex" id="ZE0-cU-tTJ"/>
+                    </connections>
+                </matrix>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="2eJ-1s-alb">
+                    <rect key="frame" x="18" y="20" width="135" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Gain" id="PWU-f4-6sZ">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B9m-Gc-23C">
+                    <rect key="frame" x="18" y="0.0" width="135" height="20"/>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="1" maxValue="30" doubleValue="30" tickMarkPosition="above" numberOfTickMarks="5" sliderType="linear" id="CB4-lo-uT9"/>
+                    <connections>
+                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.curveGain" id="E1t-5E-L13"/>
+                    </connections>
+                </slider>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="0w3-9D-BXe">
+                    <rect key="frame" x="157" y="20" width="135" height="16"/>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Alpha" id="IED-6S-Qiq">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TXi-l5-RB9">
+                    <rect key="frame" x="157" y="0.0" width="135" height="20"/>
+                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="0.20000000000000001" maxValue="1" doubleValue="1" tickMarkPosition="above" sliderType="linear" id="sFH-WA-4t6"/>
+                    <connections>
+                        <binding destination="hDS-qr-Wu8" name="value" keyPath="values.de.yanone.speedPunk.alpha" id="HSs-gQ-lxd"/>
+                    </connections>
+                </slider>
+                <button horizontalHuggingPriority="1000" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sl7-CF-Kzt">
+                    <rect key="frame" x="238" y="85" width="62" height="19"/>
+                    <buttonCell key="cell" type="inline" title="GitHub →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="tya-T9-UP3">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystemBold"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="visitWebsite:" target="-2" id="i6O-fZ-y34"/>
+                    </connections>
+                </button>
+                <button hidden="YES" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LPy-II-gd7">
+                    <rect key="frame" x="238" y="64" width="62" height="19"/>
+                    <buttonCell key="cell" type="inline" title="Twitter →" bezelStyle="inline" alignment="center" borderStyle="border" inset="2" id="1Jp-Ac-jPD">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="smallSystemBold"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="visitTwitter:" target="-2" id="HgR-bM-3e8"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="TXi-l5-RB9" firstAttribute="leading" secondItem="0w3-9D-BXe" secondAttribute="leading" id="1Ep-i1-nhx"/>
+                <constraint firstItem="LPy-II-gd7" firstAttribute="leading" secondItem="VsB-JZ-gtC" secondAttribute="trailing" constant="8" symbolic="YES" id="1ds-oh-z6D"/>
+                <constraint firstItem="TXi-l5-RB9" firstAttribute="centerY" secondItem="B9m-Gc-23C" secondAttribute="centerY" id="33q-QJ-K7p"/>
+                <constraint firstAttribute="trailing" secondItem="0w3-9D-BXe" secondAttribute="trailing" constant="20" symbolic="YES" id="4V1-zp-gPe"/>
+                <constraint firstItem="TXi-l5-RB9" firstAttribute="trailing" secondItem="0w3-9D-BXe" secondAttribute="trailing" id="7tQ-AO-xeU"/>
+                <constraint firstItem="sl7-CF-Kzt" firstAttribute="leading" secondItem="iM5-u4-PlU" secondAttribute="trailing" constant="8" symbolic="YES" id="AMx-KL-3Dj"/>
+                <constraint firstItem="0w3-9D-BXe" firstAttribute="leading" secondItem="2eJ-1s-alb" secondAttribute="trailing" constant="8" symbolic="YES" id="AVH-fD-4Eb"/>
+                <constraint firstItem="VsB-JZ-gtC" firstAttribute="leading" secondItem="iM5-u4-PlU" secondAttribute="leading" id="GKz-7A-hEV"/>
+                <constraint firstItem="2eJ-1s-alb" firstAttribute="top" secondItem="VsB-JZ-gtC" secondAttribute="bottom" constant="8" symbolic="YES" id="IbS-YZ-YEq"/>
+                <constraint firstItem="B9m-Gc-23C" firstAttribute="trailing" secondItem="2eJ-1s-alb" secondAttribute="trailing" id="JSF-8L-BeN"/>
+                <constraint firstItem="iM5-u4-PlU" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="2" id="LfK-bh-Mn9"/>
+                <constraint firstAttribute="trailing" secondItem="sl7-CF-Kzt" secondAttribute="trailing" constant="10" id="M9u-Jf-vNr"/>
+                <constraint firstItem="iM5-u4-PlU" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="20" symbolic="YES" id="Mpb-nA-u4O"/>
+                <constraint firstItem="2eJ-1s-alb" firstAttribute="leading" secondItem="iM5-u4-PlU" secondAttribute="leading" id="NSe-Rs-1rm"/>
+                <constraint firstItem="0w3-9D-BXe" firstAttribute="firstBaseline" secondItem="2eJ-1s-alb" secondAttribute="firstBaseline" id="RXc-ui-UC7"/>
+                <constraint firstItem="VsB-JZ-gtC" firstAttribute="top" secondItem="iM5-u4-PlU" secondAttribute="bottom" constant="8" symbolic="YES" id="U8V-GW-IZW"/>
+                <constraint firstItem="sl7-CF-Kzt" firstAttribute="firstBaseline" secondItem="iM5-u4-PlU" secondAttribute="firstBaseline" id="lJf-ew-auB"/>
+                <constraint firstItem="sl7-CF-Kzt" firstAttribute="leading" secondItem="LPy-II-gd7" secondAttribute="leading" id="m7K-yr-yyt"/>
+                <constraint firstItem="B9m-Gc-23C" firstAttribute="leading" secondItem="2eJ-1s-alb" secondAttribute="leading" id="mOI-bj-P6K"/>
+                <constraint firstItem="B9m-Gc-23C" firstAttribute="top" secondItem="2eJ-1s-alb" secondAttribute="bottom" constant="2" id="oQg-Nm-6Am"/>
+                <constraint firstItem="sl7-CF-Kzt" firstAttribute="trailing" secondItem="LPy-II-gd7" secondAttribute="trailing" id="ol7-Lc-uDB"/>
+                <constraint firstItem="LPy-II-gd7" firstAttribute="top" secondItem="sl7-CF-Kzt" secondAttribute="bottom" constant="2" id="rbk-gb-A9l"/>
+                <constraint firstItem="0w3-9D-BXe" firstAttribute="width" secondItem="2eJ-1s-alb" secondAttribute="width" id="s43-Zs-FZo"/>
+                <constraint firstAttribute="bottom" secondItem="B9m-Gc-23C" secondAttribute="bottom" constant="2" id="v5J-zQ-t1X"/>
+            </constraints>
+            <point key="canvasLocation" x="54" y="158.5"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="hDS-qr-Wu8"/>
+    </objects>
+</document>

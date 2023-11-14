@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>plugin</string>
+	<key>CFBundleIdentifier</key>
+	<string>de.Yanone.GlyphsAppSpeedPunkReporter</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>SpeedPunk</string>
+	<key>CFBundleVersion</key>
+	<string>16</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.2.2</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 2018 by Yanone</string>
+	<key>NSPrincipalClass</key>
+	<string>GlyphsAppSpeedPunkReporter</string>
+	<key>PyMainFileNames</key>
+	<array>
+		<string>plugin.py</string>
+	</array>
+</dict>
+</plist>
