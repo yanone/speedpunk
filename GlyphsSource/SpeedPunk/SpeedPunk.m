@@ -490,7 +490,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 - (void)calcCurvatures:(GSPathSegment *)segment steps:(int)steps {
 	NSArray *curvatureSets;
-	if( segment.type == CURVE) {
+	if (segment.type == CURVE) {
 		// curvatureSets = self._calcCurvaturesCubic(segment[0], segment[1], segment[2], segment[3], steps)
 		curvatureSets = [self _calcCurvaturesCubic:segment->elements[0] p2:segment->elements[1] p3:segment->elements[2] p4:segment->elements[3] steps:steps];
 	}
@@ -498,7 +498,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 		if (segment->count == 3) {
 			curvatureSets = [self _calcCurvaturesQuadratic:segment->elements[0] p2:segment->elements[1] p3:segment->elements[2] steps:steps];
 		}
-		else {
+		else if (segment->count > 3) {
 			curvatureSets = [NSMutableArray new];
 			NSPoint prevOn = segment->elements[0];
 			steps /= segment->count - 2;
