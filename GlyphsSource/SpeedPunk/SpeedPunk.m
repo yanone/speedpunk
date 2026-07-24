@@ -12,9 +12,10 @@
 #import <GlyphsCore/GSLayer.h>
 #import <GlyphsCore/GSPath.h>
 #import <GlyphsCore/GSPathSegment.h>
-#import <GlyphsCore/GSGeometrieHelper.h>
+#import <GlyphsCore/GSGeometryHelpers.h>
 #import <GlyphsCore/GSProxyShapes.h>
-#import <GlyphsCore/GSWindowControllerProtocol.h>
+#import <GlyphsApp/GSWindowController.h>
+#import <GlyphsApp/GSEditViewController.h>
 #import <dlfcn.h>
 
 // extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
@@ -645,7 +646,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 	/*
 	 Don't activate if text or pan (hand) tool are active.
 	 */
-	NSWindowController <GSWindowControllerProtocol> *currentController = self.controller.view.window.windowController;
+	GSWindowController *currentController = self.controller.windowController;
 	if (!currentController) {
 		return NO;
 	}

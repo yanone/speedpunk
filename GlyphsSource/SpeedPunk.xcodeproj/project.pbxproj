@@ -230,8 +230,8 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
 				DEPLOYMENT_LOCATION = YES;
 				DEVELOPMENT_TEAM = X2L8375ZQ7;
-				DSTROOT = "$(USER_LIBRARY_DIR)/Application Support/Glyphs 3/Plugins";
-				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				DSTROOT = "$(USER_LIBRARY_DIR)/Application Support/Glyphs 4/Plugins";
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 4.app/Contents/Frameworks\"";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
 				INSTALL_PATH = /;
@@ -247,7 +247,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = X2L8375ZQ7;
-				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 4.app/Contents/Frameworks\"";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
 				INSTALL_PATH = /;
