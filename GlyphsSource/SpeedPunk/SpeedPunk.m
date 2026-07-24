@@ -17,9 +17,78 @@
 #import <GlyphsCore/GSGeometrieHelper.h>
 #import <GlyphsCore/GSProxyShapes.h>
 #import <GlyphsCore/GSWindowControllerProtocol.h>
+#import <dlfcn.h>
 
-extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
-extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, NSPoint *a, NSPoint *b, NSPoint *c, NSPoint *d);
+// extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
+// extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, NSPoint *a, NSPoint *b, NSPoint *c, NSPoint *d);
+
+typedef void (*CalcCubicParametersFunction)(
+	NSPoint p1,
+	NSPoint p2,
+	NSPoint p3,
+	NSPoint p4,
+	NSPoint *a,
+	NSPoint *b,
+	NSPoint *c,
+	NSPoint *d
+);
+
+static CalcCubicParametersFunction sCalcCubicParameters = NULL;
+
+typedef void (*CalcQuadraticParametersFunction)(
+	NSPoint p1,
+	NSPoint p2,
+	NSPoint p3,
+	NSPoint *a,
+	NSPoint *b,
+	NSPoint *c
+);
+
+static CalcQuadraticParametersFunction sCalcQuadraticParameters = NULL;
+
+static void *sFrameworkHandle = NULL;
+
+static BOOL LoadCalcCubicParameters(void) {
+	NSBundle *coreBundle = [NSBundle bundleForClass:[GSFont class]];
+	sFrameworkHandle = dlopen(
+		coreBundle.executablePath.fileSystemRepresentation,
+		RTLD_LAZY | RTLD_LOCAL
+	);
+
+	if (sFrameworkHandle == NULL) {
+		NSLog(@"Could not load framework: %s", dlerror());
+		return NO;
+	}
+
+	static const char *symbolCubicNames[] = {
+		"calcCubicParameters",		// Glyphs 3
+		"GSCalcCubicParameters"		// Glyphs 4
+	};
+	void *symbolCubic = NULL;
+	for (NSUInteger i = 0; i < sizeof(symbolCubicNames) / sizeof(symbolCubicNames[0]); i++) {
+		symbolCubic = dlsym(sFrameworkHandle, symbolCubicNames[i]);
+
+		if (symbolCubic != NULL) {
+			sCalcCubicParameters = (CalcCubicParametersFunction)symbolCubic;
+			break;
+		}
+	}
+
+	static const char *symbolQuadraticNames[] = {
+		"calcQuadraticParameters",		// Glyphs 3
+		"GSCalcQuadraticParameters"		// Glyphs 4
+	};
+	void *symbolQuadratic = NULL;
+	for (NSUInteger i = 0; i < sizeof(symbolQuadraticNames) / sizeof(symbolQuadraticNames[0]); i++) {
+		symbolQuadratic = dlsym(sFrameworkHandle, symbolQuadraticNames[i]);
+
+		if (symbolQuadratic != NULL) {
+			sCalcQuadraticParameters = (CalcQuadraticParametersFunction)symbolQuadratic;
+			break;
+		}
+	}
+	return symbolCubic && symbolQuadratic;
+}
 
 // #define DRAW_GRADIENTS 1
 
@@ -342,6 +411,9 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 @synthesize controller = _editViewController;
 
 + (void)initialize {
+
+	LoadCalcCubicParameters();
+
 	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	CGFloat defaultCurveGain = Interpolate(curveGainMin, curveGainMax, .2);
 	[defaults registerDefaults:@{
@@ -443,7 +515,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 	NSMutableArray *curvatureSets = [NSMutableArray new];
 	NSPoint a, b, c, d;
-	calcCubicParameters(p1, p2, p3, p4, &a, &b, &c, &d);
+	sCalcCubicParameters(p1, p2, p3, p4, &a, &b, &c, &d);
 
 	CGFloat curvature1 = NSNotFound;
 	CGFloat curvature2 = NSNotFound;
@@ -469,7 +541,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 	NSMutableArray *curvatureSets = [NSMutableArray new];
 	NSPoint a, b, c;
-	calcQuadraticParameters(p1, p2, p3, &a, &b, &c);
+	sCalcQuadraticParameters(p1, p2, p3, &a, &b, &c);
 
 	CGFloat curvature1 = NSNotFound;
 	CGFloat curvature2 = NSNotFound;
