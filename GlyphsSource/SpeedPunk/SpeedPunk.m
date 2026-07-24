@@ -7,8 +7,6 @@
 //
 
 #import "SpeedPunk.h"
-#import <GlyphsCore/GlyphsFilterProtocol.h>
-#import <GlyphsCore/GSFilterPlugin.h>
 #import <GlyphsCore/GSFont.h>
 #import <GlyphsCore/GSGlyph.h>
 #import <GlyphsCore/GSLayer.h>
@@ -490,11 +488,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 		Alpha = [defaults floatForKey:AlphaKey];
 
 		for (GSPathSegment *segment in self.segments) {
-			for (SPCurvature *curvatrue in segment.objects) {
+			for (SPCurvature *curvature in segment.objects) {
 #if DRAW_GRADIENTS
-				curvatrue.gradient = nil;
+				curvature.gradient = nil;
 #else
-				curvatrue.color = nil;
+				curvature.color = nil;
 #endif
 			}
 		}
