@@ -3,25 +3,24 @@ from __future__ import division, print_function, unicode_literals
 
 ##########################################################################################
 #
-#	Speed Punk
-#	Visualisation tool of outline curvature for font editors.
-#	
-#	Distributed under Apache 2.0 license
+# Speed Punk
+# Visualisation tool of outline curvature for font editors.
+#
+# Distributed under Apache 2.0 license
 #
 ##########################################################################################
 
-import objc, webbrowser
-from GlyphsApp import *
-from GlyphsApp import NSStr
-from GlyphsApp.plugins import *
-from Foundation import NSString
-from AppKit import NSGraphicsContext, NSUserDefaultsController
+import objc
+import webbrowser
+from GlyphsApp import Glyphs, NSStr
+from GlyphsApp.plugins import ReporterPlugin
+from Cocoa import NSGraphicsContext, NSUserDefaultsController, NSBezierPath, NSClassFromString, NSRect, NSMinX, NSMaxY
 
 import speedpunk.speedpunklib
 
 # import cProfile, pstats
 # def gprofile(self, layer, command):
-	
+
 # 	filename = 'profile_stats.stats'
 # 	#profile.run(command, filename)
 # 	cProfile.runctx(command, globals(), locals(), filename)
@@ -34,11 +33,12 @@ import speedpunk.speedpunklib
 # 	stats.sort_stats('cumulative')
 # 	stats.print_stats()
 
+
 class GlyphsAppSpeedPunkReporter(ReporterPlugin):
-	
+
 	settingsView = objc.IBOutlet()
 	gainSlider = objc.IBOutlet()
-	
+
 	@objc.python_method
 	def settings(self):
 		self.keyboardShortcut = 'x'
@@ -51,34 +51,34 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 		self.generalContextMenus = [{'name': 'Speed Punk', 'view': self.settingsView}]
 		self.gainSlider.setMinValue_(curveGain[0])
 		self.gainSlider.setMaxValue_(curveGain[1])
-		
+
 		self.histWidth = 200
 		self.histHeight = 20
-		
+
 		default = NSUserDefaultsController.sharedUserDefaultsController()
 		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.illustrationPositionIndex'), 0, None)
 		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.curveGain'), 0, None)
 		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.useFader'), 0, None)
 		default.addObserver_forKeyPath_options_context_(self, NSStr('values.de.yanone.speedPunk.fader'), 0, None)
-	
+
 	@objc.python_method
 	def conditionsAreMetForDrawing(self):
-			"""
-			Don't activate if text or pan (hand) tool are active.
-			"""
-			currentController = self.controller.view().window().windowController()
-			if currentController:
-				tool = currentController.toolDrawDelegate()
-				textToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolText") )
-				handToolIsActive = tool.isKindOfClass_( NSClassFromString("GlyphsToolHand") )
-				if not textToolIsActive and not handToolIsActive: 
-					return True
-			return False
-	
+		"""
+		Don't activate if text or pan (hand) tool are active.
+		"""
+		currentController = self.controller.view().window().windowController()
+		if currentController:
+			tool = currentController.toolDrawDelegate()
+			textToolIsActive = tool.isKindOfClass_(NSClassFromString("GlyphsToolText"))
+			handToolIsActive = tool.isKindOfClass_(NSClassFromString("GlyphsToolHand"))
+			if not textToolIsActive and not handToolIsActive:
+				return True
+		return False
+
 	def observeValueForKeyPath_ofObject_change_context_(self, keypath, observed, changed, context):
 		self.speedpunklib.loadPreferences()
 		Glyphs.redraw()
-	
+
 	@objc.python_method
 	def background(self, layer):
 		if self.conditionsAreMetForDrawing():
@@ -95,7 +95,7 @@ class GlyphsAppSpeedPunkReporter(ReporterPlugin):
 			self.speedpunklib.drawGradient(histOriginX, histOriginY, self.histWidth, self.histHeight)
 			self.speedpunklib.drawHistogram(histOriginX, histOriginY, self.histWidth, self.histHeight)
 			NSGraphicsContext.currentContext().restoreGraphicsState()
-	
+
 	@objc.python_method
 	def __file__(self):
 		"""Please leave this method unchanged"""

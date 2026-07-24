@@ -5,15 +5,17 @@ from __future__ import division, print_function, unicode_literals
 #
 #	Speed Punk
 #	Visualisation tool of outline curvature for font editors.
-#	
+#
 #	Distributed under Apache 2.0 license
 #
 ##########################################################################################
 
-import math, time, traceback
-
-from AppKit import NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRect
-
+import math
+import sys
+import platform
+import os
+from typing import Any
+from Cocoa import NSImage, NSColor, NSBezierPath, NSPoint, NSGradient, NSMakeRect
 
 
 ##########################################################################################
@@ -28,20 +30,20 @@ def InterpolateHexColorList(colors, p):
 	# Safety first
 	if p < 0: p = 0
 	if p > 1: p = 1
-	
+
 	if p == 0:
 		return colors[0]
 	elif p == 1:
 		return colors[-1]
 	else:
 		for i in range(len(colors)):
-			
+
 			before = (float(i) / (len(colors) - 1))
 			after = (float(i + 1) / (len(colors) - 1))
-			
-			if  before < p < after:
+
+			if before < p < after:
 				v = (p - before) / (after - before)
-				
+
 #				print("interpolate between", before, after, p, v)
 
 				R = Interpolate(colors[i][0], colors[i + 1][0], v)
@@ -53,7 +55,8 @@ def InterpolateHexColorList(colors, p):
 			elif p == after:
 				return colors[i + 1]
 
-def Interpolate(a, b, p, limit = False):
+
+def Interpolate(a, b, p, limit=False):
 	"""
 	Interpolate between values a and b at float position p (0-1)
 	Limit: No extrapolation
@@ -66,12 +69,11 @@ def Interpolate(a, b, p, limit = False):
 	else:
 		return i
 
+
 def Execute(command):
 	"""
 	Execute system command, return output.
 	"""
-
-	import sys, os, platform
 
 	if sys.version.startswith("2.3") or platform.system() == "Windows":
 		p = os.popen(command, "r")
@@ -87,20 +89,22 @@ def Execute(command):
 		process.stdout.close()
 		return response
 
+
 def Stamina():
 	"""
 	Calculate system power as integer using by multiplying number of active CPUs with clock speed.
 	"""
 	return int(Execute('sysctl hw.activecpu').split(' ')[-1]) * int(Execute('sysctl hw.cpufrequency').split(' ')[-1])
 
+
 def Environment():
 	"""
 	Return the environment, from which this script is being called.
 	Currently supported: FontLab, GlyphsApp, NodeBox, Python
 	"""
-	
+
 	environment = 'Python'
-	
+
 	try:
 		import FL
 		environment = 'FontLab'
@@ -120,7 +124,7 @@ def Environment():
 		import nodebox
 		environment = 'NodeBox'
 	except: pass
-	
+
 	return environment
 
 
@@ -140,6 +144,7 @@ def solveCubicBezier(p1, p2, p3, p4):
 	d = p1
 	return a, b, c, d
 
+
 def solveCubicBezierCurvature(a, b, c, d, t):
 	"""
 	Calc curvature using cubic Bezier equation and 1st and 2nd derivative.
@@ -150,15 +155,15 @@ def solveCubicBezierCurvature(a, b, c, d, t):
 	t2 = t ** 2
 	r.x = a.x * t3 + b.x * t2 + c.x * t + d.x
 	r.y = a.y * t3 + b.y * t2 + c.y * t + d.y
-	
+
 	r1 = NSPoint()
 	r1.x = 3 * a.x * t2 + 2 * b.x * t + c.x
 	r1.y = 3 * a.y * t2 + 2 * b.y * t + c.y
-	
+
 	r2 = NSPoint()
 	r2.x = 6 * a.x * t + 2 * b.x
 	r2.y = 6 * a.y * t + 2 * b.y
-	
+
 	return (r, r1, r2, (r1.x * r2.y - r1.y * r2.x) / (r1.x ** 2 + r1.y ** 2) ** 1.5)
 
 
@@ -195,7 +200,7 @@ quadraticGradient = NSGradient.alloc().initWithColors_(cs)
 
 gradients = {
 	'cubic': cubicGradient,
-	'quadratic' : quadraticGradient
+	'quadratic': quadraticGradient
 }
 
 curveGain = (.1, 3)
@@ -222,12 +227,15 @@ elif environment == 'GlyphsApp':
 defaultsPrefix = "de.yanone.speedPunk."
 defaultPreferences = {
 	# defaultsPrefix+"illustrationPositionIndex":1,
-	defaultsPrefix+"curveGain":Interpolate(curveGain[0], curveGain[1], .2),
-	defaultsPrefix+"fader":1.0,
-	defaultsPrefix+"useFader":False
+	defaultsPrefix + "curveGain": Interpolate(curveGain[0], curveGain[1], .2),
+	defaultsPrefix + "fader": 1.0,
+	defaultsPrefix + "useFader": False
 }
 
+
 class SpeedPunkLib(object):
+	tool: Any
+
 	def __init__(self):
 
 		self.tool = None
@@ -241,18 +249,18 @@ class SpeedPunkLib(object):
 		self.glyphstring = None
 		self.unitsperem = 1000
 		self.curves = 'cubic'
-		
+
 		# Preferences
 		self.preferenceKeys = ('illustrationPositionIndex', 'curveGain', 'useFader', 'fader')
 		Glyphs.registerDefaults(defaultPreferences)
-		justInstalled = Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] is None
+		justInstalled = Glyphs.defaults[defaultsPrefix + 'illustrationPositionIndex'] is None
 		if justInstalled:
-			Glyphs.defaults[defaultsPrefix+'illustrationPositionIndex'] = 1
+			Glyphs.defaults[defaultsPrefix + 'illustrationPositionIndex'] = 1
 		self.loadPreferences()
 
 		'''
 		# UI
-		
+
 		self.prefwindow = SpeedPunkPrefWindow(self)
 		self.drawGradientImage()
 		'''
@@ -260,7 +268,7 @@ class SpeedPunkLib(object):
 		## Welcome
 		if justInstalled and environment == 'GlyphsApp' and False: # remove ‘and False’ if you want to reactivate the dialog
 			Message(
-			message = Glyphs.localize({
+				message=Glyphs.localize({
 				'en': 'Thank you for choosing Speed Punk. You’ll find me in the View menu under ‘Show Speed Punk’ or with the keyboard shortcut Cmd+Shift+X. The plug-in settings have moved into the context menu (right click).\n\nEnjoy and make sure to follow @yanone on Twitter.',
 				'de': 'Danke zur Wahl von Speed Punk. Du findest mich im Ansicht-Menü unter ‘Speed Punk anzeigen’ oder mit dem Tastenkürzel Cmd+Shift+X. Die Plug-in-Einstellungen sind ins Kontextmenü (Rechtsklick) gewandert.\n\nViel Spaß und wir sehen uns bei @yanone auf Twitter.',
 				'fr': 'Merci d’avoir choisi Speed Punk. Retrouvez-le dans le menu Affichage sous ‘Afficher Speed Punk’ ou avec le raccourci Cmd+Shift+X. Les préférences se trouvent dans le menu contextuel (clic-droit).\n\nProfitez-en et suivez-moi sur Twitter: @yanone.',
@@ -269,7 +277,7 @@ class SpeedPunkLib(object):
 				'ja': 'Speed Punk を使っていただき有難うございます。Speed Punkは表示メニューバーの「Speed Punk を表示」または Cmd+Shift+X ショートカットで使えます。プラグイン設定は右クリックのコンテクストメニューにあります。\n\nお楽しみください。Twitter の @yanone もよろしくお願いします。',
 				'ko': '“Speed Punk”를 사용해주셔서 감사합니다. 상단메뉴의 ’보기 > 보기 Speed Punk’ 클릭 또는 단축키 Cmd + Shift + X로 실행할 수 있습니다. 플러그인 설정은 마우스 오른쪽 > 컨텍스트 메뉴에 있습니다.\n\n트위터에서 @yanone 를 팔로우 해주시기 바랍니다.',
 			}),
-			title = Glyphs.localize({
+			title=Glyphs.localize({
 				'en': 'Welcome to Speed Punk %s' % VERSION,
 				'de': 'Willkommen zu Speed Punk %s' % VERSION,
 				'fr': 'Bienvenu·e·s chez Speed Punk %s' % VERSION,
@@ -279,7 +287,7 @@ class SpeedPunkLib(object):
 				'ko': '“Speed Punk %s”를 사용해주셔서 감사합니다.' % VERSION,
 			}),
 			)
-			
+
 		return
 
 	def setPreference(self, key, value):
@@ -293,7 +301,7 @@ class SpeedPunkLib(object):
 	def Open(self):
 		self.prefwindow.w.show()
 		self.RefreshView()
-	
+
 	def Close(self):
 		self.tool.Close()
 		self.prefwindow.w.hide()
@@ -311,7 +319,7 @@ class SpeedPunkLib(object):
 		# Compile new curve segments list
 		newSegmentPositions = []
 		newCurvesType = self.curves
-		
+
 		# Glyphs
 		if environment == 'GlyphsApp':
 			for p in g.paths:
@@ -342,14 +350,14 @@ class SpeedPunkLib(object):
 						p2 = Point(s.points[0].x, s.points[0].y)
 						p3 = Point(s.points[1].x, s.points[1].y)
 						p4 = Point(s.points[2].x, s.points[2].y)
-				
+
 						(h1x, h1y), (h2x, h2y), (x2, y2) = curveConverter.convertSegment((p1.x, p1.y), ((p2.x, p2.y), (p3.x, p3.y), (p4.x, p4.y)),  "curve")
 						p2 = Point(h1x, h1y)
 						p3 = Point(h2x, h2y)
 						p4 = Point(x2, y2)
-				
+
 						newSegmentPositions.append((p1, p2, p3, p4))
-				
+
 					previouspoint = s.points[-1]
 
 		# Curve type has changed
@@ -364,7 +372,7 @@ class SpeedPunkLib(object):
 			for curvesegment in newSegmentPositions:
 				p1, p2, p3, p4 = curvesegment
 				oldSegments.append(Segment(self, p1, p2, p3, p4))
-			
+
 		else:
 			# Compare stored segments with new coordinates, recalc if necessary
 			for i, curvesegment in enumerate(newSegmentPositions):
@@ -372,10 +380,10 @@ class SpeedPunkLib(object):
 				if (p1, p2, p3, p4) != (oldSegments[i].p1, oldSegments[i].p2, oldSegments[i].p3, oldSegments[i].p4):
 					oldSegments[i] = Segment(self, p1, p2, p3, p4)
 					changed = True
-		
+
 		self.curvesegments = oldSegments
 		self.glyphchanged = changed
-		
+
 	def calcNumberofcurvesegments(self, g):
 		numberofcurvesegments = 0
 		if environment == 'GlyphsApp':
@@ -390,7 +398,7 @@ class SpeedPunkLib(object):
 						numberofcurvesegments += 1
 		return numberofcurvesegments
 
-	def UpdateGlyph(self, g, glyphstring = None):
+	def UpdateGlyph(self, g, glyphstring=None):
 
 		# Units per em
 		if environment == 'GlyphsApp':
@@ -410,7 +418,7 @@ class SpeedPunkLib(object):
 			# Things have actually changed
 			if self.glyphchanged:
 				self.values = []
-		
+
 				for segment in self.curvesegments:
 					self.values.extend(segment.Values())
 
@@ -429,26 +437,26 @@ class SpeedPunkLib(object):
 
 		for segment in self.curvesegments:
 			segment.DrawSegment()
-		
+
 		# Reset
 		self.glyphchanged = False
 
 	def iterateSegments(self):
 		for segment in self.curvesegments:
 			segment.DrawSegment()
-		
+
 	def drawGradientImage(self):
 		frame = self.prefwindow.w.gradientImage.getNSImageView().frame()
 		width = int(frame.size[0])
 		height = int(frame.size[1])
 		image = NSImage.alloc().initWithSize_((width, height))
 		image.lockFocus()
-		
+
 		self.drawGradient(0, 0, width, height)
-		
+
 		image.unlockFocus()
 		self.prefwindow.w.gradientImage.setImage(imageObject=image)
-		
+
 	def drawGradient(self, originX, originY, width, height):
 		gradient = gradients[self.curves]
 		gradient.drawInRect_angle_(NSMakeRect(originX, originY, width, height), 0)
@@ -467,14 +475,14 @@ class SpeedPunkLib(object):
 	def drawHistogramImage(self):
 		width = int(self.tool.histWidth)
 		height = int(self.tool.histHeight)
-		
+
 		image = NSImage.alloc().initWithSize_((width, height))
 		image.lockFocus()
 		image.setBackgroundColor_(NSColor.clearColor())
 		self.drawHistogram(0, 0, width, height)
 		image.unlockFocus()
 		self.prefwindow.w.histogramImage.setImage(imageObject=image)
-	
+
 	def drawHistogram(self, originX, originY, width, height):
 		NSColor.colorWithWhite_alpha_(0, .5).set()
 		path = NSBezierPath.bezierPath()
@@ -490,6 +498,7 @@ class SpeedPunkLib(object):
 		path.closePath()
 		path.fill()
 
+
 class Curvature:
 	def __init__(self, segment, set1, set2):
 		self.segment = segment
@@ -500,15 +509,15 @@ class Curvature:
 		self.fader = None
 		self.useFader = None
 		self.color = None
-		
+
 	def DrawCurvature(self):
-		
+
 		# Color
 		if not self._DrawCurvatureColor():
 			return # can happen with straight segments
 		self._DrawCurvatureIllustration()
 		self._DrawCurvaturePaths()
-	
+
 	def _DrawCurvatureColor(self):
 		speedpunklib = self.segment.speedpunklib
 		prefFader = speedpunklib.fader
@@ -517,7 +526,7 @@ class Curvature:
 			#print("__color")
 			self.fader = prefFader
 			self.useFader = prefUseFader
-			
+
 			# Color
 			deltaV = speedpunklib.vmax - speedpunklib.vmin
 
@@ -555,12 +564,12 @@ class Curvature:
 		speedpunklib = self.segment.speedpunklib
 		prefIllustrationPositionIndex = int(speedpunklib.illustrationPositionIndex)
 		prefCurveGain = speedpunklib.curveGain
-		
+
 		if speedpunklib.glyphchanged or self.curveGain != prefCurveGain or self.illustrationPosition != prefIllustrationPositionIndex:
 			#print("__illustration")
 			self.curveGain = prefCurveGain
 			self.illustrationPosition = prefIllustrationPositionIndex
-			
+
 			factor = drawfactor * self.curveGain * speedpunklib.unitsperem ** 2
 			k1 = self.set1[3] * factor
 			k2 = self.set2[3] * factor
