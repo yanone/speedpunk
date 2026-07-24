@@ -32,7 +32,7 @@
 		5649E5E72AC60A6700A0FF33 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5649E5E82AC60A6800A0FF33 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5649E5E92AC60A6A00A0FF33 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5649E5EA2AC61EBC00A0FF33 /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = "../../../../../../Applications/Glyphs 3.app/Contents/Frameworks/GlyphsCore.framework"; sourceTree = "<group>"; };
+		5649E5EA2AC61EBC00A0FF33 /* GlyphsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GlyphsCore.framework; path = "/Applications/Glyphs 3.app/Contents/Frameworks/GlyphsCore.framework"; sourceTree = "<absolute>"; };
 		5664B2B02AC4597800A28703 /* SpeedPunk.glyphsReporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpeedPunk.glyphsReporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		5664B2B32AC4597800A28703 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		5664B2B62AC4597800A28703 /* SpeedPunk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpeedPunk.h; sourceTree = "<group>"; };
@@ -230,8 +230,8 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
 				DEPLOYMENT_LOCATION = YES;
 				DEVELOPMENT_TEAM = X2L8375ZQ7;
-				DSTROOT = "$(USER_LIBRARY_DIR)/Application Support/Glyphs 3/Plugins";
-				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				DSTROOT = "$(USER_LIBRARY_DIR)/Application Support/Glyphs 4/Plugins";
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 4.app/Contents/Frameworks\"";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
 				INSTALL_PATH = /;
@@ -247,7 +247,7 @@
 				CODE_SIGN_IDENTITY = "Developer ID Application: Georg Seifert (X2L8375ZQ7)";
 				DEPLOYMENT_POSTPROCESSING = NO;
 				DEVELOPMENT_TEAM = X2L8375ZQ7;
-				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 3.app/Contents/Frameworks\"";
+				FRAMEWORK_SEARCH_PATHS = "\"/Applications/Glyphs 4.app/Contents/Frameworks\"";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSPrincipalClass = SPSpeedPunk;
 				INSTALL_PATH = /;

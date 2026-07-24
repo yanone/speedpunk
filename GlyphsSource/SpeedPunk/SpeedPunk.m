@@ -7,20 +7,87 @@
 //
 
 #import "SpeedPunk.h"
-#import <GlyphsCore/GlyphsFilterProtocol.h>
-#import <GlyphsCore/GSFilterPlugin.h>
 #import <GlyphsCore/GSFont.h>
 #import <GlyphsCore/GSGlyph.h>
 #import <GlyphsCore/GSLayer.h>
 #import <GlyphsCore/GSPath.h>
 #import <GlyphsCore/GSPathSegment.h>
-#import <GlyphsCore/GSGeometrieHelper.h>
+#import <GlyphsCore/GSGeometryHelpers.h>
 #import <GlyphsCore/GSProxyShapes.h>
-#import <GlyphsCore/GSSaveBezierPath.h>
-#import <GlyphsCore/GSWindowControllerProtocol.h>
+#import <GlyphsApp/GSWindowController.h>
+#import <GlyphsApp/GSEditViewController.h>
+#import <dlfcn.h>
 
-extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
-extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, NSPoint *a, NSPoint *b, NSPoint *c, NSPoint *d);
+// extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
+// extern void calcCubicParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint p4, NSPoint *a, NSPoint *b, NSPoint *c, NSPoint *d);
+
+typedef void (*CalcCubicParametersFunction)(
+	NSPoint p1,
+	NSPoint p2,
+	NSPoint p3,
+	NSPoint p4,
+	NSPoint *a,
+	NSPoint *b,
+	NSPoint *c,
+	NSPoint *d
+);
+
+static CalcCubicParametersFunction sCalcCubicParameters = NULL;
+
+typedef void (*CalcQuadraticParametersFunction)(
+	NSPoint p1,
+	NSPoint p2,
+	NSPoint p3,
+	NSPoint *a,
+	NSPoint *b,
+	NSPoint *c
+);
+
+static CalcQuadraticParametersFunction sCalcQuadraticParameters = NULL;
+
+static void *sFrameworkHandle = NULL;
+
+static BOOL LoadCalcCubicParameters(void) {
+	NSBundle *coreBundle = [NSBundle bundleForClass:[GSFont class]];
+	sFrameworkHandle = dlopen(
+		coreBundle.executablePath.fileSystemRepresentation,
+		RTLD_LAZY | RTLD_LOCAL
+	);
+
+	if (sFrameworkHandle == NULL) {
+		NSLog(@"Could not load framework: %s", dlerror());
+		return NO;
+	}
+
+	static const char *symbolCubicNames[] = {
+		"calcCubicParameters",		// Glyphs 3
+		"GSCalcCubicParameters"		// Glyphs 4
+	};
+	void *symbolCubic = NULL;
+	for (NSUInteger i = 0; i < sizeof(symbolCubicNames) / sizeof(symbolCubicNames[0]); i++) {
+		symbolCubic = dlsym(sFrameworkHandle, symbolCubicNames[i]);
+
+		if (symbolCubic != NULL) {
+			sCalcCubicParameters = (CalcCubicParametersFunction)symbolCubic;
+			break;
+		}
+	}
+
+	static const char *symbolQuadraticNames[] = {
+		"calcQuadraticParameters",		// Glyphs 3
+		"GSCalcQuadraticParameters"		// Glyphs 4
+	};
+	void *symbolQuadratic = NULL;
+	for (NSUInteger i = 0; i < sizeof(symbolQuadraticNames) / sizeof(symbolQuadraticNames[0]); i++) {
+		symbolQuadratic = dlsym(sFrameworkHandle, symbolQuadraticNames[i]);
+
+		if (symbolQuadratic != NULL) {
+			sCalcQuadraticParameters = (CalcQuadraticParametersFunction)symbolQuadratic;
+			break;
+		}
+	}
+	return symbolCubic && symbolQuadratic;
+}
 
 // #define DRAW_GRADIENTS 1
 
@@ -303,7 +370,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 	NSPoint outerspace2 = NSMakePoint(S20.x + (S21.y / S21abs * k2), S20.y - (S21.x / S21abs * k2));
 	NSPoint outerspace1 = NSMakePoint(S10.x + (S11.y / S11abs * k1), S10.y - (S11.x / S11abs * k1));
 
-	NSBezierPath *path = [GSSaveBezierPath new];
+	if (!isfinite(S10.x) || !isfinite(S10.y) || !isfinite(S20.x) || !isfinite(outerspace1.x) || !isfinite(outerspace1.y) || !isfinite(outerspace2.x) || !isfinite(outerspace2.y)) {
+		return;
+	}
+
+	NSBezierPath *path = [NSBezierPath new];
 	// OnCurve
 	[path moveToPoint:S10];
 	[path lineToPoint:S20];
@@ -339,6 +410,9 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 @synthesize controller = _editViewController;
 
 + (void)initialize {
+
+	LoadCalcCubicParameters();
+
 	NSUserDefaults *defaults = NSUserDefaults.standardUserDefaults;
 	CGFloat defaultCurveGain = Interpolate(curveGainMin, curveGainMax, .2);
 	[defaults registerDefaults:@{
@@ -373,7 +447,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 }
 
 - (NSUInteger)interfaceVersion {
-	// Distinguishes the API verison the plugin was built for. Return 1.
+	// Distinguishes the API version the plugin was built for. Return 1.
 	return 1;
 }
 
@@ -415,11 +489,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 		Alpha = [defaults floatForKey:AlphaKey];
 
 		for (GSPathSegment *segment in self.segments) {
-			for (SPCurvature *curvatrue in segment.objects) {
+			for (SPCurvature *curvature in segment.objects) {
 #if DRAW_GRADIENTS
-				curvatrue.gradient = nil;
+				curvature.gradient = nil;
 #else
-				curvatrue.color = nil;
+				curvature.color = nil;
 #endif
 			}
 		}
@@ -440,7 +514,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 	NSMutableArray *curvatureSets = [NSMutableArray new];
 	NSPoint a, b, c, d;
-	calcCubicParameters(p1, p2, p3, p4, &a, &b, &c, &d);
+	sCalcCubicParameters(p1, p2, p3, p4, &a, &b, &c, &d);
 
 	CGFloat curvature1 = NSNotFound;
 	CGFloat curvature2 = NSNotFound;
@@ -466,7 +540,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 	NSMutableArray *curvatureSets = [NSMutableArray new];
 	NSPoint a, b, c;
-	calcQuadraticParameters(p1, p2, p3, &a, &b, &c);
+	sCalcQuadraticParameters(p1, p2, p3, &a, &b, &c);
 
 	CGFloat curvature1 = NSNotFound;
 	CGFloat curvature2 = NSNotFound;
@@ -490,7 +564,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 
 - (void)calcCurvatures:(GSPathSegment *)segment steps:(int)steps {
 	NSArray *curvatureSets;
-	if( segment.type == CURVE) {
+	if (segment.type == CURVE) {
 		// curvatureSets = self._calcCurvaturesCubic(segment[0], segment[1], segment[2], segment[3], steps)
 		curvatureSets = [self _calcCurvaturesCubic:segment->elements[0] p2:segment->elements[1] p3:segment->elements[2] p4:segment->elements[3] steps:steps];
 	}
@@ -498,7 +572,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 		if (segment->count == 3) {
 			curvatureSets = [self _calcCurvaturesQuadratic:segment->elements[0] p2:segment->elements[1] p3:segment->elements[2] steps:steps];
 		}
-		else {
+		else if (segment->count > 3) {
 			curvatureSets = [NSMutableArray new];
 			NSPoint prevOn = segment->elements[0];
 			steps /= segment->count - 2;
@@ -572,7 +646,7 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 	/*
 	 Don't activate if text or pan (hand) tool are active.
 	 */
-	NSWindowController <GSWindowControllerProtocol> *currentController = self.controller.view.window.windowController;
+	GSWindowController *currentController = self.controller.windowController;
 	if (!currentController) {
 		return NO;
 	}
