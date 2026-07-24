@@ -16,7 +16,6 @@
 #import <GlyphsCore/GSPathSegment.h>
 #import <GlyphsCore/GSGeometrieHelper.h>
 #import <GlyphsCore/GSProxyShapes.h>
-#import <GlyphsCore/GSSaveBezierPath.h>
 #import <GlyphsCore/GSWindowControllerProtocol.h>
 
 extern void calcQuadraticParameters(NSPoint p1, NSPoint p2, NSPoint p3, NSPoint *a, NSPoint *b, NSPoint *c);
@@ -303,7 +302,11 @@ void InterpolateHexColorList(CGFloat colors[3][3], CGFloat p, CGFloat *R, CGFloa
 	NSPoint outerspace2 = NSMakePoint(S20.x + (S21.y / S21abs * k2), S20.y - (S21.x / S21abs * k2));
 	NSPoint outerspace1 = NSMakePoint(S10.x + (S11.y / S11abs * k1), S10.y - (S11.x / S11abs * k1));
 
-	NSBezierPath *path = [GSSaveBezierPath new];
+	if (!isfinite(S10.x) || !isfinite(S10.y) || !isfinite(S20.x) || !isfinite(outerspace1.x) || !isfinite(outerspace1.y) || !isfinite(outerspace2.x) || !isfinite(outerspace2.y)) {
+		return;
+	}
+
+	NSBezierPath *path = [NSBezierPath new];
 	// OnCurve
 	[path moveToPoint:S10];
 	[path lineToPoint:S20];
